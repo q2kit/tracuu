@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra cứu hoá đơn điện tử</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 0;
+        }
+        header {
+            background-color: #30b7f3;
+            color: white;
+            text-align: center;
+            padding: 3em 0;
+        }
+        .header-inner {
+            white-space: nowrap;
+            animation: marquee 5s linear infinite;
+            display: inline-block;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        .container {
+            margin: 20px auto;
+            max-width: 800px;
+            text-align: center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        .product-details {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .btn-short {
+            width: 100px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-inner">
+            <h1 style="font-size: 60px">Tra cứu hoá đơn điện tử</h1>
+        </div>
+    </header>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" name="tax_code" class="form-control" placeholder="Vui lòng nhập mã số thuế">
+            </div>
+            <button type="submit" class="btn btn-success btn-short" style="background-color: #30b7f3; border-color: #30b7f3">Tra cứu</button>
+        </form>
+        {% if show_warning %}
+            <div class="alert alert-warning" role="alert">
+                Không tìm thấy hoá đơn cho mã số thuế đã nhập.
+            </div>
+        {% endif %}
+        {% if product %}
+            <div class="product-details">
+                <h2>{{ product.name }}</h2>
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+            </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+
