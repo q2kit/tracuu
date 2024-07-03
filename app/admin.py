@@ -9,5 +9,5 @@ class ProductAdmin(admin.ModelAdmin):
 
 admin.site.register(Product, ProductAdmin)
 
-admin.site.site_header = 'Quốc Anh TH'
-admin.site.site_title = 'Quốc Anh TH'
+admin.site.site_header = 'Tra cứu 24/7'
+admin.site.site_title = 'Tra cứu 24/7'
