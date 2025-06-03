@@ -1,0 +1,7 @@
+services:
+  server:
+    container_name: tracuu
+    build: .
+    restart: always
+    ports:
+      - "8000:80"
