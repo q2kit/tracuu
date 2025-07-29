@@ -13,4 +13,4 @@ RUN pip install -r requirements.txt
 
 RUN python manage.py collectstatic --noinput
 
-CMD nginx && gunicorn -w 5 mypham.wsgi:application -b 0.0.0.0:8000
+CMD nginx && gunicorn -w 5 project.wsgi:application -b 0.0.0.0:8000
