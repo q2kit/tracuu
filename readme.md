@@ -21,3 +21,10 @@ docker run -p 8000:80 --name tracuu \
 
 ### Access the application
 Open your browser and go to: `http://localhost:8000`
+
+---
+
+## Quick install
+```bash
+curl -fsSL https://raw.githubusercontent.com/q2kit/tracuu/refs/heads/main/install.sh | sh
+```
