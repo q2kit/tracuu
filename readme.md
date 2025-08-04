@@ -26,5 +26,5 @@ Open your browser and go to: `http://localhost:8000`
 
 ## Quick install
 ```bash
-curl -fsSL https://raw.githubusercontent.com/q2kit/tracuu/refs/heads/main/install.sh | sh
+curl -fsSL https://install.tracuuhoadon247.com/install.sh | sh
 ```
