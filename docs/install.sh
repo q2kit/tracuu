@@ -31,7 +31,14 @@ else
   echo "==> File cấu hình nginx đã tồn tại."
 fi
 
-if [ ! -L /etc/nginx/sites-enabled/tracuu ]; then
+if [ -L /etc/nginx/sites-enabled/tracuu ]; then
+  echo "==> Symlink đã tồn tại."
+elif [ -e /etc/nginx/sites-enabled/tracuu ]; then
+  echo "==> File tồn tại nhưng không phải symlink, đang xóa và tạo lại..."
+  rm -f /etc/nginx/sites-enabled/tracuu
+  ln -s /etc/nginx/sites-available/tracuu /etc/nginx/sites-enabled/
+else
+  echo "==> Tạo symlink mới..."
   ln -s /etc/nginx/sites-available/tracuu /etc/nginx/sites-enabled/
 fi
 
@@ -46,10 +53,12 @@ touch /srv/tracuu/db.sqlite3
 chown -R $(whoami):$(whoami) /srv/tracuu
 
 if docker ps -a --format '{{.Names}}' | grep -Eq '^tracuu$'; then
+  echo "==> Dừng container cũ..."
   docker stop tracuu
   docker rm tracuu
 fi
 
+echo "==> Chạy container..."
 docker run -d -p 8000:80 --name tracuu \
   -v /srv/tracuu/db.sqlite3:/srv/db.sqlite3 \
   -v /srv/tracuu/media:/srv/media \
