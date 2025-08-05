@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cài đặt tracuuhoadon247.com</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fafb;
+      color: #111827;
+      margin: 0;
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: #1f2937;
+      margin-bottom: 0.5rem;
+    }
+
+    .card {
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 2rem;
+      max-width: 700px;
+      width: 100%;
+    }
+
+    .code-container {
+      position: relative;
+      margin-top: 1rem;
+    }
+
+    pre {
+      background-color: #f3f4f6;
+      padding: 1rem;
+      padding-right: 2.5rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 1rem;
+      color: #dc2626;
+      margin: 0;
+      white-space: pre-wrap;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 50%;
+      right: 0.5rem;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.25rem;
+      width: fit-content;
+      height: fit-content;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+    }
+
+    .icon {
+      width: 24px;
+      height: 24px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    @media (max-width: 750px) {
+      body {
+        padding: 2.5rem;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+      }
+
+      .card {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body {
+        padding: 2rem;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <h1>🚀 Cài đặt tracuuhoadon247.com</h1>
+  <div class="card">
+    <p>Để cài đặt server, chạy lệnh sau trong terminal:</p>
+    <div class="code-container">
+      <pre id="install-command"><code>curl -fsSL https://install.tracuuhoadon247.com/install.sh | sh</code></pre>
+      <button class="copy-btn" onclick="copyCommand()">
+        <!-- Icon copy -->
+        <svg id="icon-copy" class="icon" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+
+        <!-- Icon success -->
+        <svg id="icon-success" class="icon hidden" viewBox="0 0 24 24" fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M22 11.1V6.9C22 3.4 20.6 2 17.1 2H12.9C9.4 2 8 3.4 8 6.9V8H11.1C14.6 8 16 9.4 16 12.9V16H17.1C20.6 16 22 14.6 22 11.1Z"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path
+            d="M16 17.1V12.9C16 9.4 14.6 8 11.1 8H6.9C3.4 8 2 9.4 2 12.9V17.1C2 20.6 3.4 22 6.9 22H11.1C14.6 22 16 20.6 16 17.1Z"
+            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          <path d="M6.08008 15L8.03008 16.95L11.9201 13.05" stroke="#292D32"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
+    <p>Script sẽ tự động cài các thành phần cần thiết cho máy chủ.</p>
+  </div>
+  <div class="footer">
+    &copy; 2025 tracuuhoadon247.com
+  </div>
+
+  <script>
+    function copyCommand() {
+      const command = document.getElementById("install-command").innerText;
+      const iconCopy = document.getElementById("icon-copy");
+      const iconSuccess = document.getElementById("icon-success");
+
+      navigator.clipboard.writeText(command).then(() => {
+        iconCopy.classList.add("hidden");
+        iconSuccess.classList.remove("hidden");
+
+        setTimeout(() => {
+          iconSuccess.classList.add("hidden");
+          iconCopy.classList.remove("hidden");
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+
+</html>
