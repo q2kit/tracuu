@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Cài đặt tracuuhoadon247.com</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f9fafb;
@@ -14,12 +18,21 @@
       padding: 4rem;
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
     }
 
     h1 {
       color: #1f2937;
       margin-bottom: 0.5rem;
+      text-align: center;
     }
 
     .card {
@@ -39,13 +52,33 @@
     pre {
       background-color: #f3f4f6;
       padding: 1rem;
-      padding-right: 2.5rem;
+      margin: 0;
       border-radius: 8px;
-      overflow-x: auto;
       font-size: 1rem;
       color: #dc2626;
-      margin: 0;
-      white-space: pre-wrap;
+    }
+
+    code {
+      overflow-x: auto;
+      display: block;
+      white-space: nowrap;
+      margin-right: 2rem;
+      scrollbar-width: thin;
+      scrollbar-color: #9ca3af #f3f4f6;
+    }
+
+    code::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    code::-webkit-scrollbar-track {
+      background: #f3f4f6;
+      border-radius: 4px;
+    }
+
+    code::-webkit-scrollbar-thumb {
+      background-color: #9ca3af;
+      border-radius: 4px;
     }
 
     .copy-btn {
@@ -61,12 +94,6 @@
       height: fit-content;
     }
 
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.875rem;
-      color: #6b7280;
-    }
-
     .icon {
       width: 24px;
       height: 24px;
@@ -74,6 +101,13 @@
 
     .hidden {
       display: none;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.875rem;
+      color: #6b7280;
+      text-align: center;
     }
 
     @media (max-width: 750px) {
@@ -107,39 +141,41 @@
 </head>
 
 <body>
-  <h1>🚀 Cài đặt tracuuhoadon247.com</h1>
-  <div class="card">
-    <p>Để cài đặt server, chạy lệnh sau trong terminal:</p>
-    <div class="code-container">
-      <pre id="install-command"><code>curl -fsSL https://install.tracuuhoadon247.com/install.sh | sh</code></pre>
-      <button class="copy-btn" onclick="copyCommand()">
-        <!-- Icon copy -->
-        <svg id="icon-copy" class="icon" viewBox="0 0 24 24" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"
-            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path
-            d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z"
-            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
+  <div class="wrapper">
+    <h1>🚀 Cài đặt tracuuhoadon247.com</h1>
+    <div class="card">
+      <p>Để cài đặt server, chạy lệnh sau trong terminal:</p>
+      <div class="code-container">
+        <pre id="install-command"><code>curl -fsSL https://install.tracuuhoadon247.com/install.sh | sh</code></pre>
+        <button class="copy-btn" onclick="copyCommand()">
+          <!-- Icon copy -->
+          <svg id="icon-copy" class="icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M16 12.9V17.1C16 20.6 14.6 22 11.1 22H6.9C3.4 22 2 20.6 2 17.1V12.9C2 9.4 3.4 8 6.9 8H11.1C14.6 8 16 9.4 16 12.9Z"
+              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M22 6.9V11.1C22 14.6 20.6 16 17.1 16H16V12.9C16 9.4 14.6 8 11.1 8H8V6.9C8 3.4 9.4 2 12.9 2H17.1C20.6 2 22 3.4 22 6.9Z"
+              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
 
-        <!-- Icon success -->
-        <svg id="icon-success" class="icon hidden" viewBox="0 0 24 24" fill="none"
-          xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M22 11.1V6.9C22 3.4 20.6 2 17.1 2H12.9C9.4 2 8 3.4 8 6.9V8H11.1C14.6 8 16 9.4 16 12.9V16H17.1C20.6 16 22 14.6 22 11.1Z"
-            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path
-            d="M16 17.1V12.9C16 9.4 14.6 8 11.1 8H6.9C3.4 8 2 9.4 2 12.9V17.1C2 20.6 3.4 22 6.9 22H11.1C14.6 22 16 20.6 16 17.1Z"
-            stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          <path d="M6.08008 15L8.03008 16.95L11.9201 13.05" stroke="#292D32"
-            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-        </svg>
-      </button>
+          <!-- Icon success -->
+          <svg id="icon-success" class="icon hidden" viewBox="0 0 24 24" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M22 11.1V6.9C22 3.4 20.6 2 17.1 2H12.9C9.4 2 8 3.4 8 6.9V8H11.1C14.6 8 16 9.4 16 12.9V16H17.1C20.6 16 22 14.6 22 11.1Z"
+              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M16 17.1V12.9C16 9.4 14.6 8 11.1 8H6.9C3.4 8 2 9.4 2 12.9V17.1C2 20.6 3.4 22 6.9 22H11.1C14.6 22 16 20.6 16 17.1Z"
+              stroke="#292D32" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M6.08008 15L8.03008 16.95L11.9201 13.05" stroke="#292D32" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+      <p>Script sẽ tự động cài các thành phần cần thiết cho máy chủ.</p>
     </div>
-    <p>Script sẽ tự động cài các thành phần cần thiết cho máy chủ.</p>
   </div>
+
   <div class="footer">
     &copy; 2025 tracuuhoadon247.com
   </div>
