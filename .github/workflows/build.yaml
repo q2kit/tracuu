@@ -25,6 +25,9 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Copy environment file
+        run: cp .env.example .env
+
       - name: Build and push multi-arch Docker image
         run: |
           docker buildx build \

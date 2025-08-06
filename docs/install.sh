@@ -81,7 +81,7 @@ fi
 echo "==> Chạy container..."
 docker run -d -p 8000:80 --name tracuu \
   -v /srv/tracuu/db.sqlite3:/srv/db.sqlite3 \
-  -v /srv/tracuu/media:/srv/media \
+  -v /srv/tracuu/.env:/srv/.env \
   q2kit/tracuu
 
 echo "✅ Hoàn tất cài đặt!"
