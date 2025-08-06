@@ -1,0 +1,45 @@
+[tool.ruff]
+target-version = "py39"
+line-length = 119
+exclude = [
+    ".git",
+    ".github",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+    ".venv",
+    "__pycache__",
+]
+
+[tool.ruff.lint]
+select = ["ALL"]
+allowed-confusables = []
+ignore = [
+    "ANN001",
+    "ANN002",
+    "ANN003",
+    "ANN201",
+    "ANN202",
+    "BLE001",
+    "D100",
+    "D101",
+    "D102",
+    "D103",
+    "D104",
+    "D105",
+    "D106",
+    "D107",
+    "D401",
+    "DJ008",
+    "ERA001",
+    "G004",
+    "PTH",
+    "RUF012",
+    "TRY400",
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.lint.pylint]
+max-args = 10
