@@ -1,0 +1,28 @@
+name: Deploy to Server
+
+on:
+  workflow_dispatch:
+    inputs:
+      ssh_host:
+        description: "SSH Host"
+        required: true
+      ssh_user:
+        description: "SSH User"
+        required: true
+      ssh_private_key:
+        description: "SSH private key"
+        required: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Server
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ github.event.inputs.ssh_private_key }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ github.event.inputs.ssh_host }} >> ~/.ssh/known_hosts
+          ssh -i ~/.ssh/id_rsa ${{ github.event.inputs.ssh_user }}@${{ github.event.inputs.ssh_host }} \
+            'curl -fsSL https://install.tracuuhoadon247.com/install.sh | sh'
