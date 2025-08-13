@@ -17,6 +17,12 @@ import dotenv
 # Load environment variables from .env file
 dotenv.load_dotenv()
 
+DEV_ENV = "development"
+PROD_ENV = "production"
+ENV = os.getenv("ENV", DEV_ENV)
+if ENV not in {DEV_ENV, PROD_ENV}:
+    raise ValueError("Invalid environment: %s. Expected 'development' or 'production'." % ENV)  # noqa: UP031
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -28,12 +34,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = ENV == DEV_ENV
 
-ALLOWED_HOSTS = ["tracuuhoadon247.com", "localhost"]
+ALLOWED_HOSTS = ["tracuuhoadon247.com"]
 
-CSRF_TRUSTED_ORIGINS = ["https://tracuuhoadon247.com", "http://localhost:8000"]
-
+CSRF_TRUSTED_ORIGINS = ["https://tracuuhoadon247.com"]
 
 # Application definition
 
@@ -142,3 +147,4 @@ AWS_SECRET_ACCESS_KEY = os.environ["R2_ACCESS_KEY"]
 AWS_STORAGE_BUCKET_NAME = os.environ["R2_BUCKET_NAME"]
 AWS_S3_REGION_NAME = os.getenv("R2_REGION_NAME", "auto")
 AWS_S3_CUSTOM_DOMAIN = os.getenv("R2_CUSTOM_DOMAIN", f"{AWS_S3_ENDPOINT_URL}/{AWS_STORAGE_BUCKET_NAME}")
+AWS_S3_FILE_OVERWRITE = False
