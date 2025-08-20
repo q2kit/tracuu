@@ -21,7 +21,9 @@ DEV_ENV = "development"
 PROD_ENV = "production"
 ENV = os.getenv("ENV", DEV_ENV)
 if ENV not in {DEV_ENV, PROD_ENV}:
-    raise ValueError("Invalid environment: %s. Expected 'development' or 'production'." % ENV)  # noqa: UP031
+    raise ValueError(  # noqa: TRY003
+        f"Invalid environment: {ENV}. Expected 'development' or 'production'.",  # noqa: EM102
+    )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -100,16 +102,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
     },
     {
-        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",  # noqa: E501
     },
     {
-        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",  # noqa: E501
     },
     {
-        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",  # noqa: E501
     },
 ]
 
