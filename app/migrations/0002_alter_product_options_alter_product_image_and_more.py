@@ -4,29 +4,39 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('app', '0001_initial'),
+        ("app", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='product',
-            options={'ordering': ['-created_at']},
+            name="product",
+            options={"ordering": ["-created_at"]},
         ),
         migrations.AlterField(
-            model_name='product',
-            name='image',
-            field=models.ImageField(unique=True, upload_to='images/', verbose_name='Ảnh mã số thuế'),
+            model_name="product",
+            name="image",
+            field=models.ImageField(
+                unique=True,
+                upload_to="images/",
+                verbose_name="Ảnh mã số thuế",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='product_name',
-            field=models.CharField(max_length=255, verbose_name='Tên sản phẩm'),
+            model_name="product",
+            name="product_name",
+            field=models.CharField(
+                max_length=255,
+                verbose_name="Tên sản phẩm",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='tax_code',
-            field=models.CharField(max_length=100, unique=True, verbose_name='Mã số thuế'),
+            model_name="product",
+            name="tax_code",
+            field=models.CharField(
+                max_length=100,
+                unique=True,
+                verbose_name="Mã số thuế",
+            ),
         ),
     ]
