@@ -38,7 +38,9 @@ class Command(BaseCommand):
         try:
             with open(db_path, "rb") as f:
                 s3.upload_fileobj(f, bucket_name, backup_key)
-            self.stdout.write(self.style.SUCCESS(f"Backup successful: {backup_key}"))
+            self.stdout.write(
+                self.style.SUCCESS(f"Backup successful: {backup_key}"),
+            )
         except Exception as e:
             self.stderr.write(f"Backup failed: {e}")
             sys.exit(1)

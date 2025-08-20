@@ -4,21 +4,30 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tax_code', models.CharField(max_length=100, unique=True)),
-                ('product_name', models.CharField(max_length=255)),
-                ('image', models.ImageField(unique=True, upload_to='assets/images')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("tax_code", models.CharField(max_length=100, unique=True)),
+                ("product_name", models.CharField(max_length=255)),
+                (
+                    "image",
+                    models.ImageField(unique=True, upload_to="assets/images"),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
         ),
     ]
