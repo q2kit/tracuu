@@ -5,7 +5,7 @@ from app.models import Product
 
 class ProductAdmin(admin.ModelAdmin):
     search_fields = ["tax_code", "product_name"]
-    list_display = ["tax_code", "product_name", "created_at"]
+    list_display = ["tax_code", "product_name", "image", "created_at"]
 
 
 admin.site.register(Product, ProductAdmin)
