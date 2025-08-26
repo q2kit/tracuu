@@ -10,7 +10,7 @@ WORKDIR /srv
 
 COPY . .
 
-RUN uv pip sync uv.lock
+RUN uv sync --system
 
 RUN python manage.py collectstatic --noinput
 
