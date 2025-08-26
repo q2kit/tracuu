@@ -1,7 +1,8 @@
 FROM python:3.12-slim
 
-RUN apt update && apt autoremove -y && apt upgrade -y
-RUN apt install -y nginx
+RUN apt update && apt install -y nginx && rm -rf /var/lib/apt/lists/*
+
+RUN pip install uv
 
 COPY nginx.conf /etc/nginx/nginx.conf
 
@@ -9,8 +10,10 @@ WORKDIR /srv
 
 COPY . .
 
-RUN pip install -r requirements.txt
+RUN uv pip sync uv.lock
 
 RUN python manage.py collectstatic --noinput
 
-CMD nginx && gunicorn -w 5 project.wsgi:application -b 0.0.0.0:8000
+EXPOSE 8000
+
+CMD ["bash", "-c", "nginx && gunicorn -w 5 project.wsgi:application -b 0.0.0.0:8000"]

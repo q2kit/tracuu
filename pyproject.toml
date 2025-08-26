@@ -43,3 +43,23 @@ known-first-party = ["app"]
 
 [tool.ruff.lint.pylint]
 max-args = 10
+
+[project]
+name = "tracuu"
+version = "1.0"
+dependencies = [
+    "Django==5.0.6",
+    "django-storages==1.14.6",
+    "gunicorn==23.0.0",
+    "boto3==1.40.3",
+    "pillow==10.3.0",
+    "python-dotenv==1.1.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pre-commit==4.2.0",
+    "ruff",
+    "black",
+    "pytest",
+]
