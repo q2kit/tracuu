@@ -61,5 +61,4 @@ dev = [
     "pre-commit==4.2.0",
     "ruff",
     "black",
-    "pytest",
 ]

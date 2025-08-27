@@ -2,15 +2,17 @@ FROM python:3.12-slim
 
 RUN apt update && apt install -y nginx && rm -rf /var/lib/apt/lists/*
 
-RUN pip install uv
-
 COPY nginx.conf /etc/nginx/nginx.conf
+
+RUN pip install uv
 
 WORKDIR /srv
 
 COPY . .
 
-RUN uv sync --system
+RUN uv sync --locked
+
+ENV PATH="/srv/.venv/bin:$PATH"
 
 RUN python manage.py collectstatic --noinput
 
