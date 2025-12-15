@@ -14,16 +14,11 @@ from pathlib import Path
 
 import dotenv
 
+from project.const import ENV, LOCAL_ENV, SERVER_HOST
+
 # Load environment variables from .env file
 dotenv.load_dotenv()
 
-DEV_ENV = "development"
-PROD_ENV = "production"
-ENV = os.getenv("ENV", DEV_ENV)
-if ENV not in {DEV_ENV, PROD_ENV}:
-    raise ValueError(  # noqa: TRY003
-        f"Invalid environment: {ENV}. Expected 'development' or 'production'.",  # noqa: EM102
-    )
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,11 +31,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = ENV == DEV_ENV
+DEBUG = ENV == LOCAL_ENV
 
-ALLOWED_HOSTS = ["tracuuhoadon247.com"]
+ALLOWED_HOSTS = [SERVER_HOST]
 
-CSRF_TRUSTED_ORIGINS = ["https://tracuuhoadon247.com"]
+if not DEBUG:
+    CSRF_TRUSTED_ORIGINS = [f"https://{SERVER_HOST}"]
 
 # Application definition
 
