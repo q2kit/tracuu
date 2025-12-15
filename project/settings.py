@@ -33,9 +33,10 @@ SECRET_KEY = os.environ["DJANGO_SECRET_KEY"]
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = ENV == LOCAL_ENV
 
-ALLOWED_HOSTS = [SERVER_HOST]
-
-if not DEBUG:
+if DEBUG:
+    ALLOWED_HOSTS = ["*"]
+else:
+    ALLOWED_HOSTS = [SERVER_HOST]
     CSRF_TRUSTED_ORIGINS = [f"https://{SERVER_HOST}"]
 
 # Application definition
