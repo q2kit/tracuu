@@ -68,7 +68,6 @@ fi
 echo "==> Pull Docker image..."
 docker pull q2kit/tracuu
 
-mkdir -p /srv/tracuu/media
 touch /srv/tracuu/db.sqlite3
 chown -R $(whoami):$(whoami) /srv/tracuu
 
