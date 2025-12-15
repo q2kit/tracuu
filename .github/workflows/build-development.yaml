@@ -1,9 +1,12 @@
 name: Docker Build for Development
 
 on:
-  push:
-    branches:
-      - "development"
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branch to build"
+        required: true
+        default: main
 
 jobs:
   build:
