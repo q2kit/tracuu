@@ -1,5 +1,10 @@
 import os
 
+import dotenv
+
+# Load environment variables from .env file
+dotenv.load_dotenv()
+
 LOCAL_ENV = "local"
 DEVELOPMENT_ENV = "development"
 PRODUCTION_ENV = "production"
