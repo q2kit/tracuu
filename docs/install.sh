@@ -83,4 +83,7 @@ docker run -d -p 8000:80 --name tracuu \
   -v /srv/tracuu/.env:/srv/.env \
   q2kit/tracuu
 
+echo "==> Migrate database..."
+docker exec tracuu python3 manage.py migrate
+
 echo "✅ Hoàn tất cài đặt!"
