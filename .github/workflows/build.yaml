@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "main"
+  workflow_dispatch:
 
 jobs:
   build:
@@ -28,10 +29,20 @@ jobs:
       - name: Copy environment file
         run: cp .env.example .env
 
-      - name: Build and push multi-arch Docker image
+      - name: Build and push multi-arch Docker image (production)
+        if: github.ref == 'refs/heads/main'
         run: |
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             --push \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/tracuu:latest \
+            .
+
+      - name: Build and push multi-arch Docker image (development)
+        if: github.ref != 'refs/heads/main'
+        run: |
+          docker buildx build \
+            --platform linux/amd64,linux/arm64 \
+            --push \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/tracuu:development \
             .
