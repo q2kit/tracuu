@@ -22,8 +22,8 @@ class Command(BaseCommand):
         # Get S3 credentials from settings
         endpoint_url = settings.AWS_S3_ENDPOINT_URL
         region_name = settings.AWS_S3_REGION_NAME
-        access_key = settings.AWS_S3_ACCESS_KEY_ID
-        secret_key = settings.AWS_S3_SECRET_ACCESS_KEY
+        access_key = settings.AWS_ACCESS_KEY_ID
+        secret_key = settings.AWS_SECRET_ACCESS_KEY
         bucket_name = settings.AWS_STORAGE_BUCKET_NAME
 
         # Create S3 client
