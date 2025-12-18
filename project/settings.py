@@ -97,19 +97,18 @@ STATIC_ROOT = os.getenv("DJANGO_STATIC_ROOT", BASE_DIR / "static")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# R2 Storage settings
-AWS_S3_ENDPOINT_URL = os.environ["R2_URL"]
-AWS_ACCESS_KEY_ID = os.environ["R2_KEY_ID"]
-AWS_SECRET_ACCESS_KEY = os.environ["R2_ACCESS_KEY"]
-AWS_STORAGE_BUCKET_NAME = os.environ["R2_BUCKET_NAME"]
-AWS_S3_REGION_NAME = os.getenv("R2_REGION_NAME", "auto")
-# AWS_S3_CUSTOM_DOMAIN = os.getenv("R2_CUSTOM_DOMAIN")
+# S3 Storage base settings
+AWS_S3_ENDPOINT_URL = os.environ["AWS_S3_ENDPOINT_URL"]
+AWS_S3_REGION_NAME = os.environ["AWS_S3_REGION_NAME"]
+AWS_S3_ACCESS_KEY_ID = os.environ["AWS_S3_ACCESS_KEY_ID"]
+AWS_S3_SECRET_ACCESS_KEY = os.environ["AWS_S3_SECRET_ACCESS_KEY"]
+AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
 AWS_S3_FILE_OVERWRITE = False
 AWS_QUERYSTRING_EXPIRE = 60 * 3  # 3 minutes
 
 STORAGES = {
     "default": {
-        "BACKEND": "project.storages.r2_storage.R2Storage",
+        "BACKEND": "project.storages.storage.Storage",
     },
     "staticfiles": {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
