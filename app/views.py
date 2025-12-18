@@ -1,26 +1,22 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404
+from django.views.generic import TemplateView
+from rest_framework.generics import RetrieveAPIView
 
-from .forms import SearchForm
-from .models import Product
+from app.models import Receipt
+from app.serializers import ReceiptSerializer
 
 
-def search_product(request):
-    product = None
-    show_warning = False
+class IndexView(TemplateView):
+    template_name = "index.html"
 
-    if request.method == "POST":
-        form = SearchForm(request.POST)
-        if form.is_valid():
-            tax_code = form.cleaned_data["tax_code"]
-            try:
-                product = Product.objects.get(tax_code=tax_code)
-            except Product.DoesNotExist:
-                show_warning = True
-    else:
-        form = SearchForm()
 
-    return render(
-        request,
-        "products/search.html",
-        {"form": form, "product": product, "show_warning": show_warning},
-    )
+class SearchView(RetrieveAPIView):
+    queryset = Receipt.objects.all()
+    serializer_class = ReceiptSerializer
+
+    def get_object(self):
+        code = self.kwargs.get("code").strip()
+        return get_object_or_404(
+            Receipt,
+            code__iexact=code,
+        )

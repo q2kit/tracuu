@@ -1,24 +1,26 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 
-class Product(models.Model):
-    tax_code = models.CharField(
-        max_length=100,
-        unique=True,
-        verbose_name="Mã số thuế",
-    )
-    product_name = models.CharField(
-        max_length=255,
-        verbose_name="Tên sản phẩm",
-    )
-    image = models.ImageField(
-        upload_to="images/",
-        verbose_name="Ảnh mã số thuế",
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
+class Receipt(models.Model):
+    code = models.CharField("Mã hóa đơn", max_length=100, unique=True)
+    description = models.TextField("Mô tả", default="", blank=True)
+    image = models.ImageField("Ảnh", upload_to="images/")
+    created_at = models.DateTimeField("Ngày tạo", auto_now_add=True)
 
     class Meta:
+        verbose_name = "Hóa đơn"
+        verbose_name_plural = "Hóa đơn"
         ordering = ["-created_at"]
 
     def __str__(self) -> str:
-        return self.tax_code
+        return self.code
+
+    def save(self, *args, **kwargs):
+        self.code = self.code.strip().upper()
+        super().save(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+        if Receipt.objects.exclude(id=self.id).filter(code__iexact=self.code).exists():
+            raise ValidationError({"code": "Mã hóa đơn đã tồn tại."})

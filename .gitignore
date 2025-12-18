@@ -3,3 +3,4 @@ media/
 .venv
 .env
 __pycache__/
+static/

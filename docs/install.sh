@@ -66,7 +66,7 @@ fi
 
 # Chuẩn bị thư mục chứa dữ liệu
 echo "==> Pull Docker image..."
-docker pull q2kit/tracuu
+docker pull q2kit/tracuu:production
 
 touch /srv/tracuu/db.sqlite3
 chown -R $(whoami):$(whoami) /srv/tracuu
@@ -81,7 +81,7 @@ echo "==> Chạy container..."
 docker run -d -p 8000:80 --name tracuu \
   -v /srv/tracuu/db.sqlite3:/srv/db.sqlite3 \
   -v /srv/tracuu/.env:/srv/.env \
-  q2kit/tracuu
+  q2kit/tracuu:production
 
 echo "==> Migrate database..."
 docker exec tracuu python3 manage.py migrate
