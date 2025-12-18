@@ -14,7 +14,7 @@ RUN uv sync --locked
 
 ENV PATH="/srv/.venv/bin:$PATH"
 
-RUN python manage.py collectstatic --noinput
+RUN DJANGO_STATIC_ROOT=/var/www/html/static/ python manage.py collectstatic --noinput
 
 EXPOSE 8000
 

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tra cứu hoá đơn 24/7</title>
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,7 +41,7 @@
             text-align: center;
         }
         .btn-short {
-            width: 100px;
+            width: 200px;
         }
 
     </style>
@@ -53,28 +53,57 @@
         </div>
     </header>
     <div class="container">
-        <form method="post">
-            {% csrf_token %}
+        <form id="search-form">
             <div class="form-group">
-                <input type="text" name="tax_code" class="form-control" placeholder="Vui lòng nhập mã tra cứu">
+                <input id="tax-code-input" type="text" name="tax_code" class="form-control" placeholder="Vui lòng nhập mã tra cứu">
             </div>
             <button type="submit" class="btn btn-success btn-short" style="background-color: #30b7f3; border-color: #30b7f3">Tra cứu</button>
         </form>
-        {% if show_warning %}
-            <div class="alert alert-warning" role="alert">
-                Không tìm thấy mã tra cứu đã nhập.
-            </div>
-        {% endif %}
-        {% if product %}
-            <div class="product-details">
-                <h2>{{ product.name }}</h2>
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
-            </div>
-        {% endif %}
+        <div id="error-box" class="alert alert-warning" role="alert" style="display: none;">
+            Không tìm thấy mã tra cứu đã nhập.
+        </div>
+        <div class="product-details" style="display: none;">
+            <img id="product-image" class="img-fluid" />
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(function () {
+            const $form = $('#search-form');
+            const $input = $('#tax-code-input');
+            const $errorBox = $('#error-box');
+            const $productWrap = $('.product-details');
+            const $productImage = $('#product-image');
+
+            $form.on('submit', function (e) {
+                e.preventDefault();
+
+                const code = $.trim($input.val());
+                if (!code) {
+                    showError('Vui lòng nhập mã hoá đơn');
+                    return;
+                }
+
+                $.ajax({
+                    url: `/search/${encodeURIComponent(code)}/`,
+                    method: 'GET',
+                    dataType: 'json'
+                })
+                .done(function (data) {
+                    $productImage.attr('src', data.image);
+                    $productWrap.show();
+                    $errorBox.hide();
+                })
+                .fail(function (xhr) {
+                    $productWrap.hide();
+                    $errorBox.show();
+                })
+            });
+        });
+    </script>
 </body>
 </html>
 

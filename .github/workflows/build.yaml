@@ -3,7 +3,17 @@ name: Docker Build
 on:
   push:
     branches: [main]
+
   workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment environment"
+        required: false
+        default: development
+        type: choice
+        options:
+          - development
+          - production
 
 jobs:
   build:
@@ -24,10 +34,12 @@ jobs:
 
       - name: Build and push multi-arch Docker image
         run: |
-          TAG=${{ github.ref_name == 'main' && 'latest' || 'development' }}
+          ENV=${{ github.event_name == 'workflow_dispatch' && inputs.environment || 'production' }}
+
+          echo "Build environment: $ENV"
 
           docker buildx build \
             --platform linux/amd64,linux/arm64 \
             --push \
-            -t ${{ secrets.DOCKERHUB_USERNAME }}/tracuu:$TAG \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/tracuu:$ENV \
             .

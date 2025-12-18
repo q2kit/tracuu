@@ -1,14 +1,17 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 
-from app.models import Product
+from app.models import Receipt
+
+admin.site.site_header = "Tra cứu hoá đơn 24/7"
+admin.site.site_title = "Tra cứu hoá đơn 24/7"
 
 
-class ProductAdmin(admin.ModelAdmin):
-    search_fields = ["tax_code", "product_name"]
-    list_display = ["tax_code", "product_name", "image", "created_at"]
+class ReceiptAdmin(admin.ModelAdmin):
+    search_fields = ["code", "description"]
+    list_display = ["code", "description", "image", "created_at"]
 
 
-admin.site.register(Product, ProductAdmin)
+admin.site.register(Receipt, ReceiptAdmin)
 
-admin.site.site_header = "Tra cứu 24/7"
-admin.site.site_title = "Tra cứu 24/7"
+admin.site.unregister(Group)
