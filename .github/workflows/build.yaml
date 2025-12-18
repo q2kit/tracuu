@@ -42,4 +42,5 @@ jobs:
             --platform linux/amd64,linux/arm64 \
             --push \
             -t ${{ secrets.DOCKERHUB_USERNAME }}/tracuu:$ENV \
+            -t ${{ secrets.DOCKERHUB_USERNAME }}/tracuu:$ENV-$(date -u +'%Y%m%d%H%M%S') \
             .
