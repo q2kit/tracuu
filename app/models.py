@@ -5,8 +5,9 @@ from django.db import models
 class Receipt(models.Model):
     code = models.CharField("Mã hóa đơn", max_length=100, unique=True)
     description = models.TextField("Mô tả", default="", blank=True)
-    image = models.ImageField("Ảnh", upload_to="images/")
+    image = models.ImageField("Ảnh")
     created_at = models.DateTimeField("Ngày tạo", auto_now_add=True)
+    is_deleted = models.BooleanField("Đã xoá", default=False)
 
     class Meta:
         verbose_name = "Hóa đơn"
