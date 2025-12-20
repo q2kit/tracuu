@@ -27,4 +27,8 @@ class Migration(migrations.Migration):
             name="image",
             field=models.ImageField(upload_to="", verbose_name="Ảnh"),
         ),
+        migrations.RunPython(
+            remove_prefix_from_receipt_image,
+            reverse_code=migrations.RunPython.noop,
+        ),
     ]
