@@ -1,3 +1,39 @@
+/* Font imports */
+@font-face {
+  font-family: 'Calibri';
+  src: url('/static/fonts/calibril.ttf') format('truetype');
+  font-weight: 300;
+  font-style: light;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('/static/fonts/calibri.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('/static/fonts/calibrib.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('/static/fonts/calibrii.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Calibri';
+  src: url('/static/fonts/calibriz.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
 *, ::before, ::after {
   --tw-border-spacing-x: 0;
   --tw-border-spacing-y: 0;
@@ -104,9 +140,11 @@
   --tw-contain-layout:  ;
   --tw-contain-paint:  ;
   --tw-contain-style:  ;
-}/*
-! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com
-*//*
+}
+
+/* ! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com */
+
+/*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
 2. Allow adding a border to an element by just adding a border-width. (https://github.com/tailwindcss/tailwindcss/pull/116)
 */
@@ -142,7 +180,7 @@ html,
   -moz-tab-size: 4; /* 3 */
   -o-tab-size: 4;
      tab-size: 4; /* 3 */
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 4 */
+  font-family: Calibri, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji; /* 4 */
   font-feature-settings: normal; /* 5 */
   font-variation-settings: normal; /* 6 */
   -webkit-tap-highlight-color: transparent; /* 7 */
@@ -423,6 +461,7 @@ menu {
 /*
 Reset default styling for dialogs.
 */
+
 dialog {
   padding: 0;
 }
@@ -463,6 +502,7 @@ button,
 /*
 Make sure disabled buttons don't get the pointer cursor.
 */
+
 :disabled {
   cursor: default;
 }
@@ -496,6 +536,7 @@ video {
 }
 
 /* Make elements with the HTML hidden attribute stay hidden by default */
+
 [hidden]:where(:not([hidden="until-found"])) {
   display: none;
 }
@@ -507,7 +548,6 @@ video {
 }
 
 @supports not (color: oklch(0% 0 0)) {
-
   :root {
     color-scheme: light;
     --fallback-p: #491eff;
@@ -531,9 +571,7 @@ video {
     --fallback-er: #ff6f70;
     --fallback-erc: #000000;
   }
-
   @media (prefers-color-scheme: dark) {
-
     :root {
       color-scheme: dark;
       --fallback-p: #7582ff;
@@ -625,7 +663,6 @@ html {
   background-color: var(--alert-bg);
 }
 @media (min-width: 640px) {
-
   .alert {
     grid-auto-flow: column;
     grid-template-columns: auto minmax(auto,1fr);
@@ -639,12 +676,10 @@ html {
   justify-content: center;
 }
 @media (hover:hover) {
-
   .label a:hover {
     --tw-text-opacity: 1;
     color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity)));
   }
-
   .table tr.hover:hover,
   .table tr.hover:nth-child(even):hover {
     --tw-bg-opacity: 1;
@@ -652,7 +687,6 @@ html {
   }
 }
 @media (hover: hover) {
-
   .btm-nav > *.disabled:hover,
       .btm-nav > *[disabled]:hover {
     pointer-events: none;
@@ -742,13 +776,11 @@ html {
   border-end-end-radius: inherit;
 }
 @supports not selector(:has(*)) {
-
   :where(.join *) {
     border-radius: inherit;
   }
 }
 @supports selector(:has(*)) {
-
   :where(.join *:has(.join-item)) {
     border-radius: inherit;
   }
@@ -846,29 +878,23 @@ html {
   line-height: 1.5rem;
 }
 @keyframes button-pop {
-
   0% {
     transform: scale(var(--btn-focus-scale, 0.98));
   }
-
   40% {
     transform: scale(1.02);
   }
-
   100% {
     transform: scale(1);
   }
 }
 @keyframes checkmark {
-
   0% {
     background-position-y: 5px;
   }
-
   50% {
     background-position-y: -2px;
   }
-
   100% {
     background-position-y: 0;
   }
@@ -1010,54 +1036,44 @@ html {
   opacity: 0.6;
 }
 @keyframes modal-pop {
-
   0% {
     opacity: 0;
   }
 }
 @keyframes progress-loading {
-
   50% {
     background-position-x: -115%;
   }
 }
 @keyframes radiomark {
-
   0% {
     box-shadow: 0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset,
       0 0 0 12px var(--fallback-b1,oklch(var(--b1)/1)) inset;
   }
-
   50% {
     box-shadow: 0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset,
       0 0 0 3px var(--fallback-b1,oklch(var(--b1)/1)) inset;
   }
-
   100% {
     box-shadow: 0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset,
       0 0 0 4px var(--fallback-b1,oklch(var(--b1)/1)) inset;
   }
 }
 @keyframes rating-pop {
-
   0% {
     transform: translateY(-0.125em);
   }
-
   40% {
     transform: translateY(-0.125em);
   }
-
   100% {
     transform: translateY(0);
   }
 }
 @keyframes skeleton {
-
   from {
     background-position: 150%;
   }
-
   to {
     background-position: -50%;
   }
@@ -1124,12 +1140,10 @@ html {
   --tw-placeholder-opacity: 0.2;
 }
 @keyframes toast-pop {
-
   0% {
     transform: scale(0.9);
     opacity: 0;
   }
-
   100% {
     transform: scale(1);
     opacity: 1;
@@ -1476,7 +1490,6 @@ html {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 @keyframes spin {
-
   to {
     transform: rotate(360deg);
   }
@@ -1758,7 +1771,7 @@ html {
   text-align: center;
 }
 .font-sans {
-  font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: Calibri, system-ui, sans-serif, Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }
 .text-2xl {
   font-size: 1.5rem;
@@ -1794,6 +1807,9 @@ html {
 }
 .uppercase {
   text-transform: uppercase;
+}
+.italic {
+  font-style: italic;
 }
 .tracking-wider {
   letter-spacing: 0.05em;
@@ -2010,41 +2026,34 @@ html {
   background-color: transparent;
 }
 @media not all and (min-width: 768px) {
-
   .max-md\:flex-col {
     flex-direction: column;
   }
 }
 @media not all and (min-width: 640px) {
-
   .max-sm\:px-5 {
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
-
   .max-sm\:pb-8 {
     padding-bottom: 2rem;
   }
-
   .max-sm\:pt-7 {
     padding-top: 1.75rem;
   }
 }
 @media (min-width: 640px) {
-
   .sm\:px-6 {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
   }
 }
 @media (min-width: 768px) {
-
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
-
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
