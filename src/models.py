@@ -36,7 +36,14 @@ class Receipt(models.Model):
 
     def clean(self):
         super().clean()
-        if Receipt.objects.exclude(id=self.id).filter(code__iexact=self.code).exists():
+        if (
+            Receipt.objects.exclude(id=self.id)
+            .filter(
+                is_deleted=False,
+                code__iexact=self.code,
+            )
+            .exists()
+        ):
             raise ValidationError({"code": "Mã hóa đơn đã tồn tại."})
 
     def delete(self, *args, **kwargs):  # noqa: ARG002
