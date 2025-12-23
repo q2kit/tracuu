@@ -1,15 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: [
-      "templates/*.html",
+      "src/templates/*.html",
       "assets/css/main.css",
-      "templates/**/*.html",
+      "src/templates/**/*.html",
     ],
     plugins: [require("daisyui")],
     theme: {
-      fontFamily: {
-        sans: ['Calibri', 'system-ui', 'sans-serif'],
-      },
       extend: {
         colors: {
         },
