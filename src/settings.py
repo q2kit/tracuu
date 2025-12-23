@@ -1,7 +1,12 @@
 import os
 from pathlib import Path
 
-from src.const import ENV, LOCAL_ENV, SERVER_HOST
+from src.const import (
+    ENV,
+    LOCAL_ENV,
+    NORMAL_IMAGE_EXPIRY_SECONDS,
+    SERVER_HOST,
+)
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -52,6 +57,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "src.context_processors.configure_context_processors",
             ],
         },
     },
@@ -104,7 +110,7 @@ AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
 AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_EXPIRE = 60 * 3  # 3 minutes
+AWS_QUERYSTRING_EXPIRE = NORMAL_IMAGE_EXPIRY_SECONDS
 
 STORAGES = {
     "default": {
@@ -117,3 +123,17 @@ STORAGES = {
         "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
     },
 }
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.IsAuthenticated",
+    ],
+    "DATETIME_FORMAT": "%d/%m/%Y %H:%M:%S",
+}
+
+LOGIN_URL = "/login/"
+LOGIN_REDIRECT_URL = "/dashboard/"
+LOGOUT_REDIRECT_URL = "/login/"

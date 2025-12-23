@@ -9,18 +9,17 @@ admin.site.site_title = "Tra cứu hoá đơn 24/7"
 
 class ReceiptAdmin(admin.ModelAdmin):
     search_fields = ["code", "description"]
-    list_display = ["code", "description", "image", "created_at"]
-    fields = ["code", "description", "image"]
+    list_display = ["code", "description", "image", "created_at", "is_deleted"]
+    list_filter = ["is_deleted", "created_at"]
 
-    def get_queryset(self, request):
-        return super().get_queryset(request).filter(is_deleted=False)
+    def has_add_permission(self, request):  # noqa: ARG002
+        return False
 
-    def delete_model(self, request, obj):  # noqa: ARG002
-        obj.is_deleted = True
-        obj.save(update_fields=["is_deleted"])
+    def has_change_permission(self, request, obj=None):  # noqa: ARG002
+        return False
 
-    def delete_queryset(self, request, queryset):  # noqa: ARG002
-        queryset.update(is_deleted=True)
+    def has_delete_permission(self, request, obj=None):  # noqa: ARG002
+        return False
 
 
 admin.site.register(Receipt, ReceiptAdmin)

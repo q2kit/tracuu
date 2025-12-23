@@ -1,0 +1,15 @@
+{% extends "components/form/base_input.html" %}
+{% block input_element %}
+  <input
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if name %}name="{{ name }}"{% endif %}
+    type="{{ type|default:'text' }}"
+    placeholder="{{ placeholder }}"
+    {% if value %}value="{{ value }}"{% endif %}
+    class="w-full h-[50px] rounded-xl border border-gray-300 px-3 text-[15px] focus:outline-none focus:ring-2 focus:ring-blue-400 {{ input_class }}"
+    {% if required %}required{% endif %}
+    {% if autocomplete %}autocomplete="{{ autocomplete }}"{% endif %}
+    {% if model_key %}x-model="{{ model_key }}"{% endif %}
+    {% if on_enter_key %}x-on:keydown.enter="{{ on_enter_key }}"{% endif %}
+  />
+{% endblock %}

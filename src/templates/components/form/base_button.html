@@ -1,0 +1,31 @@
+<button
+  {% if id %}id="{{ id }}"{% endif %}
+  type="{{ type|default:'button' }}"
+  class="font-semibold relative transition focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed {{ base_class }} {{ class }}"
+  {% if disabled %}
+    disabled
+  {% else %}
+    {% if disabled_key %}:disabled="{{ disabled_key }}"{% endif %}
+  {% endif %}
+  {% if has_spinner %}:disabled="{{ loading_key }}"{% endif %}
+  {% if on_click %}@click="{{ on_click }}"{% endif %}
+>
+  {% if has_spinner %}
+    <div
+      class="flex items-center justify-center"
+      x-show="{{ loading_key }}"
+    >
+      <svg class="animate-spin h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+      </svg>
+    </div>
+  {% endif %}
+  <div
+    class="flex items-center justify-center gap-1"
+    {% if has_spinner %}x-show="!{{ loading_key }}"{% endif %}
+  >
+    {% if icon %}{% include icon %}{% endif %}
+    {% if text %}<span>{{ text }}</span>{% endif %}
+  </div>
+</button>

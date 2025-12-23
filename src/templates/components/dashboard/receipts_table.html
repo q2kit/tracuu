@@ -1,0 +1,45 @@
+<div class="bg-white rounded-xl shadow-sm overflow-hidden mt-2">
+  <div class="px-6 py-4 border-b border-gray-200">
+    <h2 class="text-lg font-semibold text-slate-800">Danh sách hoá đơn</h2>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead class="bg-gray-50 border-b border-gray-200">
+        <tr>
+          <th class="px-6 py-3 text-left text-xs text-nowrap font-bold text-gray-500 uppercase tracking-wider">Mã hoá đơn</th>
+          <th class="px-6 py-3 text-left text-xs text-nowrap font-bold text-gray-500 uppercase tracking-wider">Mô tả</th>
+          <th class="px-6 py-3 text-left text-xs text-nowrap font-bold text-gray-500 uppercase tracking-wider">Ngày tạo</th>
+          <th class="px-6 py-3 text-left text-xs text-nowrap font-bold text-gray-500 uppercase tracking-wider">Ảnh</th>
+          <th class="px-6 py-3 text-left text-xs text-nowrap font-bold text-gray-500 uppercase tracking-wider">Thao tác</th>
+        </tr>
+      </thead>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <template x-if="receipts.length === 0">
+          <tr>
+            <td colspan="5" class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 text-center">Chưa có hoá đơn nào</td>
+          </tr>
+        </template>
+
+        <template x-for="item in receipts" :key="item.id">
+          <tr>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-700 font-medium" x-text="item.code"></td>
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm text-slate-600 overflow-hidden text-ellipsis max-w-xs"
+              x-text="item.description || '-' "
+              :title="item.description"
+            ></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600" x-text="item.created_at"></td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+              <button class="text-blue-500 hover:underline" @click="openImageModal(item.image_url)" x-text="item.image_name"></button>
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-600">
+              {% include "components/form/icon_button.html" with icon="components/icons/edit.html" on_click="openEditForm(item)" %}
+              {% include "components/form/icon_button.html" with icon="components/icons/delete.html" on_click="deleteReceipt(item.id)" class="hover:bg-red-100" %}
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
+  </div>
+</div>

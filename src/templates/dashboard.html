@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Dashboard - Tra cứu hoá đơn 24/7{% endblock %}
+
+{% block content %}
+  <div x-data="dashboard()" x-cloak class="min-h-screen" x-effect="document.body.classList.toggle('overflow-hidden', showFormModal || showImageModal)">
+    {% include "components/base/header.html" %}
+
+    <main class="flex flex-col gap-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="w-full flex flex-col gap-1">
+        {% for message in messages %}
+          {% include "components/alert.html" with tag=message.tags message=message %}
+        {% endfor %}
+      </div>
+
+      {% include "components/dashboard/stats.html" %}
+
+      {% include "components/form/text_button.html" with icon="components/icons/add.html" text="Thêm mới" class="!w-fit !h-[42px] px-4 mt-4" on_click="openAddForm" %}
+
+      {% include "components/dashboard/receipts_table.html" %}
+    </main>
+
+    {% include "components/image_modal.html" with show_modal_key="showImageModal" src_key="imageModalSrc" %}
+    {% include "components/dashboard/receipt_form_modal.html" %}
+    <script>
+      function dashboard() {
+        return {
+          receipts: JSON.parse("{{ receipts|escapejs }}"),
+          imageModalSrc: '',
+          showImageModal: false,
+          showFormModal: false,
+          formLoading: false,
+          form: {
+            id: null,
+            code: '',
+            changed_code: false,
+            description: '',
+            image_file: null,
+            changed_image_file: false,
+            image_name: '',
+            image_url: '',
+          },
+          errors: { code: '', image: '' },
+          init() {
+            this.$watch('form.code', (value) => {
+              if (value.trim()) {
+                this.errors.code = '';
+              } else if (this.form.changed_code) {
+                this.errors.code = 'Vui lòng nhập mã hoá đơn.';
+              }
+              this.form.changed_code = true;
+            });
+            this.$watch('form.image_file', (value) => {
+              if (value) {
+                this.errors.image = '';
+              } else if (this.form.id === null && this.form.changed_image_file) {
+                this.errors.image = 'Vui lòng chọn ảnh hoá đơn.';
+              }
+              this.form.changed_image_file = true;
+            });
+          },
+          clearForm() {
+            this.form = {
+              id: null,
+              code: '',
+              changed_code: false,
+              description: '',
+              image_file: null,
+              changed_image_file: false,
+              image_name: '',
+              image_url: '',
+            };
+            this.$refs.imageInputRef.value = null;
+          },
+          setForm(item) {
+            if (item) {
+              this.form = {
+                id: item.id,
+                code: item.code,
+                changed_code: false,
+                description: item.description,
+                image_file: null,
+                changed_image_file: false,
+                image_name: item.image_name,
+                image_url: item.image_url,
+              };
+            } else {
+              this.clearForm();
+            }
+            this.errors = { code: '', image: '' };
+          },
+          openAddForm() {
+            this.setForm(null);
+            this.showFormModal = true;
+          },
+          openEditForm(item) {
+            this.setForm(item);
+            this.showFormModal = true;
+          },
+          openImageModal(src) {
+            this.imageModalSrc = src;
+            this.showImageModal = true;
+          },
+          onFileChange(event) {
+            this.form.image_file = event.target.files && event.target.files[0] ? event.target.files[0] : null;
+            if (this.form.image_file) {
+              this.form.image_name = this.form.image_file.name;
+              this.form.image_url = URL.createObjectURL(this.form.image_file);
+            } else {
+              this.form.image_name = '';
+              this.form.image_url = '';
+            }
+          },
+          validateForm() {
+            this.errors = { code: '', image: '' };
+            const code = (this.form.code || '').trim();
+            if (!code) {
+              this.errors.code = 'Vui lòng nhập mã hoá đơn.';
+            } else {
+              const pattern = /^[A-Za-z0-9\-_]+$/; // no spaces, only letters, numbers, - and _
+              if (!pattern.test(code)) {
+                this.errors.code = 'Vui lòng nhập mã hoá đơn hợp lệ.';
+              }
+            }
+            if (this.form.id === null && !this.form.image_file) {
+              this.errors.image = 'Vui lòng chọn ảnh hoá đơn.';
+            }
+            return !this.errors.code && !this.errors.image && !this.errors.form;
+          },
+          submitForm() {
+            if (!this.validateForm()) {
+              return;
+            }
+            this.formLoading = true;
+            const fd = new FormData();
+            fd.append('code', (this.form.code || '').trim());
+            fd.append('description', this.form.description || '');
+            if (this.form.image_file) {
+              fd.append('image', this.form.image_file);
+            }
+            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            const url = this.form.id === null ? '/api/receipts/' : `/api/receipts/${this.form.id}/`;
+            const method = this.form.id === null ? 'POST' : 'PATCH';
+
+            $.ajax({
+              url,
+              method,
+              data: fd,
+              processData: false,
+              contentType: false,
+              headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+            })
+            .done((data) => {
+              const updated = {
+                id: data.id,
+                code: data.code,
+                description: data.description,
+                image_name: data.image_name,
+                image_url: data.image_url,
+                created_at: data.created_at,
+                is_recent: data.is_recent,
+              };
+              if (this.form.id === null) {
+                this.receipts = [updated, ...this.receipts];
+              } else {
+                this.receipts = this.receipts.map(receipt => receipt.id === updated.id ? updated : receipt);
+              }
+              this.showFormModal = false;
+              this.clearForm();
+            })
+            .fail((xhr) => {
+              try {
+                const resp = xhr.responseJSON;
+                if (resp) {
+                  if (resp.code) {
+                    this.errors.code = resp.code.join(' ');
+                  }
+                  if (resp.image) {
+                    this.errors.image = resp.image.join(' ');
+                  }
+                  if (resp.non_field_errors) {
+                    this.errors.form = resp.non_field_errors.join(' ');
+                  }
+                } else {
+                  this.errors.form = 'Lưu hoá đơn thất bại. Vui lòng thử lại.';
+                }
+              } catch (e) {
+                this.errors.form = 'Lưu hoá đơn thất bại. Vui lòng thử lại.';
+              }
+            })
+            .always(() => {
+              this.formLoading = false;
+            });
+          },
+          deleteReceipt(id) {
+            if (!confirm('Bạn có chắc chắn muốn xoá hoá đơn này không?')) {
+              return;
+            }
+            // Soft-delete by setting is_deleted = true via PATCH
+            const fd = new FormData();
+            fd.append('is_deleted', 'true');
+            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            $.ajax({
+              url: `/api/receipts/${id}/`,
+              method: 'PATCH',
+              data: fd,
+              processData: false,
+              contentType: false,
+              headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+            })
+              .done(() => {
+                this.receipts = this.receipts.filter(r => r.id !== id);
+              })
+              .fail(() => {
+                alert('Xoá hoá đơn thất bại. Vui lòng thử lại.');
+              });
+          },
+        }
+      }
+    </script>
+  </div>
+{% endblock %}

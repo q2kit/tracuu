@@ -1,0 +1,39 @@
+<div
+  x-show="{{ show_modal_key }}"
+  x-cloak
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+  @click.self="{{ show_modal_key }} = false"
+  @keydown.escape.window="{{ show_modal_key }} = false"
+  x-transition:enter="transition ease-out duration-300"
+  x-transition:enter-start="opacity-0"
+  x-transition:enter-end="opacity-100"
+  x-transition:leave="transition ease-in duration-200"
+  x-transition:leave-start="opacity-100"
+  x-transition:leave-end="opacity-0"
+>
+  <div
+    x-show="{{ show_modal_key }}"
+    class="max-w-full max-h-full overflow-auto rounded-lg shadow-2xl hide-scrollbar"
+    x-transition:enter="transition ease-out duration-300 transform"
+    x-transition:enter-start="opacity-0 scale-50"
+    x-transition:enter-end="opacity-100 scale-100"
+    x-transition:leave="transition ease-in duration-200 transform"
+    x-transition:leave-start="opacity-100 scale-100"
+    x-transition:leave-end="opacity-0 scale-50"
+  >
+    <img
+      :src="{{ src_key }}"
+      class="block h-auto w-auto min-w-[200px] max-w-[min(calc(100vw-2rem),1000px)]"
+      alt="Ảnh hoá đơn"
+    >
+  </div>
+
+  <button
+    @click="{{ show_modal_key }} = false"
+    class="fixed top-5 right-5 p-2 bg-black/40 hover:bg-black/80 rounded-full text-white transition-colors"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+</div>
