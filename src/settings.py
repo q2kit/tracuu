@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from project.const import ENV, LOCAL_ENV, SERVER_HOST
+from src.const import ENV, LOCAL_ENV, SERVER_HOST
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "app",
+    "src",
     "storages",
     "rest_framework",
 ]
@@ -39,12 +39,12 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "project.urls"
+ROOT_URLCONF = "src.urls"
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / "templates"],
+        "DIRS": [BASE_DIR / "src" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -57,7 +57,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "project.wsgi.application"
+WSGI_APPLICATION = "src.wsgi.application"
 
 DATABASES = {
     "default": {
@@ -108,7 +108,7 @@ AWS_QUERYSTRING_EXPIRE = 60 * 3  # 3 minutes
 
 STORAGES = {
     "default": {
-        "BACKEND": "project.storages.storage.Storage",
+        "BACKEND": "src.storages.storage.Storage",
         "OPTIONS": {
             "location": "images",
         },

@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from app.models import Receipt
+from src.models import Receipt
 
 
 class ReceiptSerializer(serializers.ModelSerializer):
