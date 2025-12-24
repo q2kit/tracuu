@@ -1,5 +1,6 @@
 import re
 
+from PIL import Image
 from rest_framework import serializers
 
 from src.const import CODE_MAX_LENGTH, IMAGE_ALLOWED_TYPES, IMAGE_MAX_SIZE_MB
@@ -55,6 +56,26 @@ class ReceiptSerializer(serializers.ModelSerializer):
         if value.content_type not in IMAGE_ALLOWED_TYPES:
             msg = "Định dạng ảnh không hợp lệ. Vui lòng tải lên ảnh hợp lệ."
             raise serializers.ValidationError(msg)
+
+        # Validate actual file content using Pillow to prevent spoofed MIME types
+        try:
+            # Open and verify the image
+            img = Image.open(value)
+            img.verify()  # Verify that it is, in fact, an image
+            # Reset file pointer and reopen to get format after verify()
+            value.seek(0)
+            img = Image.open(value)
+            img_format = img.format.lower() if img.format else None
+        except Exception:
+            msg = "File tải lên không phải là ảnh hợp lệ."
+            raise serializers.ValidationError(msg) from None
+
+        # Check if the actual image format matches allowed types
+        allowed_formats = {"jpeg", "jpg", "png", "gif", "webp"}
+        if img_format not in allowed_formats:
+            msg = "Định dạng ảnh không hợp lệ. Vui lòng tải lên ảnh hợp lệ."
+            raise serializers.ValidationError(msg)
+
         return value
 
     def get_image_url(self, obj):
