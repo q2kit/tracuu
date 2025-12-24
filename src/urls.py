@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from src.const import ENV, PRODUCTION_ENV
+from src.const import DEVELOPMENT_ENV, ENV, LOCAL_ENV
 from src.views import (
     CustomLoginView,
     CustomLogoutView,
@@ -26,5 +26,5 @@ urlpatterns = [
     ),
 ]
 
-if ENV != PRODUCTION_ENV:
+if ENV in [LOCAL_ENV, DEVELOPMENT_ENV]:
     urlpatterns.insert(0, path("admin/", admin.site.urls))
