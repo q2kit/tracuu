@@ -11,3 +11,11 @@ repos:
     hooks:
       - id: end-of-file-fixer
       - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: css-build-check
+        name: CSS Build Check
+        entry: bash ./css_build_check.sh
+        language: system
+        stages: [commit]
