@@ -132,17 +132,18 @@
             if (!this.validateForm()) {
               return;
             }
+
             this.formLoading = true;
+
+            const url = this.form.id === null ? '/api/receipts/' : `/api/receipts/${this.form.id}/`;
+            const method = this.form.id === null ? 'POST' : 'PATCH';
+
             const fd = new FormData();
             fd.append('code', (this.form.code || '').trim());
             fd.append('description', this.form.description || '');
             if (this.form.image_file) {
               fd.append('image', this.form.image_file);
             }
-            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-
-            const url = this.form.id === null ? '/api/receipts/' : `/api/receipts/${this.form.id}/`;
-            const method = this.form.id === null ? 'POST' : 'PATCH';
 
             $.ajax({
               url,
@@ -201,7 +202,6 @@
             // Soft-delete by setting is_deleted = true via PATCH
             const fd = new FormData();
             fd.append('is_deleted', 'true');
-            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
             $.ajax({
               url: `/api/receipts/${id}/`,
               method: 'PATCH',
