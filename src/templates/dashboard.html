@@ -25,14 +25,18 @@
     {% include "components/dashboard/receipt_form_modal.html" %}
     
     <!-- CSRF token for AJAX requests -->
-    <div style="display: none;">
+    <div hidden>
       {% csrf_token %}
     </div>
     
     <script>
       function getCsrfToken() {
         const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
-        return tokenElement ? tokenElement.value : '';
+        if (!tokenElement) {
+          console.error('CSRF token element not found in the DOM');
+          return '';
+        }
+        return tokenElement.value;
       }
       
       function dashboard() {
