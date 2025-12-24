@@ -23,7 +23,18 @@
 
     {% include "components/image_modal.html" with show_modal_key="showImageModal" src_key="imageModalSrc" %}
     {% include "components/dashboard/receipt_form_modal.html" %}
+    
+    <!-- CSRF token for AJAX requests -->
+    <div style="display: none;">
+      {% csrf_token %}
+    </div>
+    
     <script>
+      function getCsrfToken() {
+        const tokenElement = document.querySelector('[name=csrfmiddlewaretoken]');
+        return tokenElement ? tokenElement.value : '';
+      }
+      
       function dashboard() {
         return {
           receipts: JSON.parse("{{ receipts|escapejs }}"),
@@ -139,7 +150,7 @@
             if (this.form.image_file) {
               fd.append('image', this.form.image_file);
             }
-            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            fd.append('csrfmiddlewaretoken', getCsrfToken());
 
             const url = this.form.id === null ? '/api/receipts/' : `/api/receipts/${this.form.id}/`;
             const method = this.form.id === null ? 'POST' : 'PATCH';
@@ -150,7 +161,7 @@
               data: fd,
               processData: false,
               contentType: false,
-              headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+              headers: { 'X-CSRFToken': getCsrfToken() },
             })
             .done((data) => {
               const updated = {
@@ -201,14 +212,14 @@
             // Soft-delete by setting is_deleted = true via PATCH
             const fd = new FormData();
             fd.append('is_deleted', 'true');
-            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+            fd.append('csrfmiddlewaretoken', getCsrfToken());
             $.ajax({
               url: `/api/receipts/${id}/`,
               method: 'PATCH',
               data: fd,
               processData: false,
               contentType: false,
-              headers: { 'X-CSRFToken': '{{ csrf_token }}' },
+              headers: { 'X-CSRFToken': getCsrfToken() },
             })
               .done(() => {
                 this.receipts = this.receipts.filter(r => r.id !== id);
