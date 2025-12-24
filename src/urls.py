@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from src.const import DEVELOPMENT_ENV, ENV, LOCAL_ENV, PRODUCTION_ENV
+from src.const import DEVELOPMENT_ENV, ENV, LOCAL_ENV
 from src.views import (
     CustomLoginView,
     CustomLogoutView,
