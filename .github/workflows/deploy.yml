@@ -18,7 +18,7 @@ jobs:
       - name: Backup Database
         run: |
           ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
-            'docker exec tracuu python manage.py backup_db >> /srv/tracuu/backup_db.log 2>&1'
+            'docker exec tracuu python manage.py backup_db'
 
       - name: Deploy to Server
         run: |
