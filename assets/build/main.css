@@ -3,7 +3,7 @@
   font-family: 'Calibri';
   src: url('/static/fonts/calibril.ttf') format('truetype');
   font-weight: 300;
-  font-style: light;
+  font-style: normal;
 }
 
 @font-face {
