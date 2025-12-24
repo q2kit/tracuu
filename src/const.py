@@ -20,6 +20,8 @@ SERVER_HOST = os.getenv("SERVER_HOST", "localhost")
 CODE_MAX_LENGTH = 100
 IMAGE_MAX_SIZE_MB = 15
 IMAGE_ALLOWED_TYPES = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/webp"]
+# PIL format names corresponding to IMAGE_ALLOWED_TYPES
+IMAGE_ALLOWED_FORMATS = {"jpeg", "jpg", "png", "gif", "webp"}
 
 NORMAL_IMAGE_EXPIRY_SECONDS = 24 * 60 * 60  # 1 day
 SEARCH_API_IMAGE_EXPIRY_SECONDS = 3 * 60  # 3 minutes

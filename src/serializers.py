@@ -3,7 +3,12 @@ import re
 from PIL import Image
 from rest_framework import serializers
 
-from src.const import CODE_MAX_LENGTH, IMAGE_ALLOWED_TYPES, IMAGE_MAX_SIZE_MB
+from src.const import (
+    CODE_MAX_LENGTH,
+    IMAGE_ALLOWED_FORMATS,
+    IMAGE_ALLOWED_TYPES,
+    IMAGE_MAX_SIZE_MB,
+)
 from src.models import Receipt
 
 
@@ -71,8 +76,7 @@ class ReceiptSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(msg) from None
 
         # Check if the actual image format matches allowed types
-        allowed_formats = {"jpeg", "jpg", "png", "gif", "webp"}
-        if img_format not in allowed_formats:
+        if img_format not in IMAGE_ALLOWED_FORMATS:
             msg = "Định dạng ảnh không hợp lệ. Vui lòng tải lên ảnh hợp lệ."
             raise serializers.ValidationError(msg)
 
