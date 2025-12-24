@@ -2,7 +2,7 @@
   {% if label %}
     <span class="block text-sm font-medium mb-2 text-slate-700">
       {{ label }}
-      {% if required %}<span class="text-red-500">*</span>{% elif show_optional %}<span class="text-xs text-slate-400">(Không bắt buộc)</span>{% endif %}
+      {% if required %}<span class="text-error">*</span>{% elif show_optional %}<span class="text-xs text-slate-400">(Không bắt buộc)</span>{% endif %}
     </span>
   {% endif %}
   {% block input_element %}{% endblock %}
@@ -12,7 +12,7 @@
   {% if error_text_key %}
     <div class="mt-1 h-4">
       <small
-        class="block text-xs text-red-500"
+        class="block text-xs text-error"
         x-show="{{ error_text_key }}"
         x-text="{{ error_text_key }}"
         x-transition:enter="transition ease-out duration-200"

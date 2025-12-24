@@ -33,7 +33,7 @@
 
         {% include "components/form/file_input.html" with icon="components/icons/image_plus.html" text="Chọn ảnh" file_input_ref="imageInputRef" label="Ảnh hoá đơn" accept=allowed_image_types required=True error_text_key="errors.image" file_name_key="form.image_name" on_change="onFileChange" %}
 
-        <div class="text-xs text-red-500" x-show="errors.form" x-text="errors.form"></div>
+        <div class="text-xs text-error" x-show="errors.form" x-text="errors.form"></div>
       </div>
 
       <div class="p-6 bg-gray-50 flex flex-col items-center justify-center gap-4">
@@ -59,7 +59,7 @@
 
     <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-100">
       {% include "components/form/text_button.html" with text="Huỷ" on_click="showFormModal = false" class="!h-[40px] !px-4 !bg-gray-500 hover:!bg-gray-600" %}
-      {% include "components/form/text_button.html" with text="Lưu" has_spinner=True on_click="submitForm" loading_key="formLoading" class="!h-[40px] !px-4 !bg-blue-500 hover:!bg-blue-600" %}
+      {% include "components/form/text_button.html" with text="Lưu" has_spinner=True on_click="submitForm" loading_key="formLoading" class="!h-[40px] !px-4 !bg-primary hover:!bg-primary/90" %}
     </div>
   </div>
 </div>
