@@ -1,3 +1,4 @@
+import contextlib
 import json
 
 from django.contrib import messages
@@ -22,6 +23,14 @@ from src.serializers import (
 
 class IndexView(TemplateView):
     template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        receipt_code = self.request.GET.get("code", "").strip()
+        with contextlib.suppress(Receipt.DoesNotExist):
+            receipt = Receipt.objects.get(is_deleted=False, code__iexact=receipt_code)
+            context["receipt"] = receipt
+        return context
 
 
 class CustomLoginView(LoginView):

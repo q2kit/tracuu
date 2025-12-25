@@ -1,4 +1,4 @@
-<div class="bg-white rounded-xl shadow-sm overflow-hidden mt-2">
+<div class="bg-white rounded-xl shadow-sm mt-2">
   <div class="px-6 py-4 border-b border-gray-300 flex items-center justify-between gap-2">
     <h2 class="text-lg font-semibold text-slate-800">Danh sách hoá đơn</h2>
     {% include "components/form/text_button.html" with icon="components/icons/add.html" text="Thêm mới" class="!w-fit !h-[38px] px-2 text-sm" on_click="openAddForm" %}
@@ -11,9 +11,9 @@
           <tr>
             <th class="{{ th_class }}">Mã hoá đơn</th>
             <th class="{{ th_class }} hidden lg:table-cell">Mô tả</th>
-            <th class="{{ th_class }} hidden sm:table-cell">Ngày tạo</th>
+            <th class="{{ th_class }} hidden sm:table-cell">Ngày giờ tạo</th>
             <th class="{{ th_class }} hidden md:table-cell">Ảnh</th>
-            <th class="{{ th_class }}">Thao tác</th>
+            <th class="{{ th_class }}"></th>
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">

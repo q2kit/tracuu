@@ -29,12 +29,24 @@
                   loading: false,
                   init() {
                     this.$watch('code', value => {
+                      const url = new URL(window.location);
                       if (value.trim()) {
                         this.code_error_text = '';
+                        url.searchParams.set('code', value.trim().toUpperCase());
                       } else {
                         this.code_error_text = 'Vui lòng nhập mã hoá đơn.';
+                        url.searchParams.delete('code');
                       }
+                      window.history.replaceState({}, '', url);
                     });
+                    {% if receipt %}
+                      this.$nextTick(() => {
+                        this.code = '{{ receipt.code }}';
+                        this.src_image = '{{ receipt.image.url|escapejs }}';
+                        this.show_thumbnail = true;
+                        this.show_modal = true;
+                      });
+                    {% endif %}
                   },
                   on_search(event) {
                     if (this.loading) return;
