@@ -1,3 +1,4 @@
+import contextlib
 import json
 
 from django.contrib import messages
@@ -9,19 +10,25 @@ from django.views.generic import TemplateView
 from rest_framework.generics import (
     CreateAPIView,
     RetrieveAPIView,
-    UpdateAPIView,
+    RetrieveUpdateDestroyAPIView,
 )
 
 from src.const import SEARCH_API_IMAGE_EXPIRY_SECONDS
 from src.forms import CustomAuthenticationForm
 from src.models import Receipt
-from src.serializers import (
-    ReceiptSerializer,
-)
+from src.serializers import ReceiptSerializer
 
 
 class IndexView(TemplateView):
     template_name = "index.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        receipt_code = self.request.GET.get("code", "").strip()
+        with contextlib.suppress(Receipt.DoesNotExist):
+            receipt = Receipt.objects.get(is_deleted=False, code__iexact=receipt_code)
+            context["receipt"] = receipt
+        return context
 
 
 class CustomLoginView(LoginView):
@@ -54,7 +61,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return Receipt.objects.filter(is_deleted=False)
 
 
-class ReceiptRetrieveAPIView(RetrieveAPIView):
+class ReceiptSearchPublicAPIView(RetrieveAPIView):
     permission_classes = []
     serializer_class = ReceiptSerializer
 
@@ -77,7 +84,10 @@ class ReceiptCreateAPIView(CreateAPIView):
     serializer_class = ReceiptSerializer
 
 
-class ReceiptUpdateAPIView(UpdateAPIView):
+class ReceiptRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Receipt.objects.filter(is_deleted=False)
     serializer_class = ReceiptSerializer
-    lookup_field = "pk"
+
+    def perform_destroy(self, instance):
+        instance.is_deleted = True
+        instance.save(update_fields=["is_deleted"])

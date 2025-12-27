@@ -4,21 +4,21 @@
 {% block title %}Dashboard - Tra cứu hoá đơn 24/7{% endblock %}
 
 {% block content %}
-  <div x-data="dashboard()" x-cloak class="min-h-screen" x-effect="document.body.classList.toggle('overflow-hidden', showFormModal || showImageModal)">
+  <div x-data="dashboard()" x-cloak class="h-screen">
     {% include "components/base/header.html" %}
 
-    <main class="flex flex-col gap-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div class="w-full flex flex-col gap-1">
-        {% for message in messages %}
-          {% include "components/alert.html" with tag=message.tags message=message %}
-        {% endfor %}
+    <main class="h-[calc(100vh-50px)] overflow-y-auto">
+      <div class="flex flex-col gap-4 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div class="w-full flex flex-col gap-1">
+          {% for message in messages %}
+            {% include "components/alert.html" with tag=message.tags message=message %}
+          {% endfor %}
+        </div>
+
+        {% include "components/dashboard/stats.html" %}
+
+        {% include "components/dashboard/receipts_table.html" %}
       </div>
-
-      {% include "components/dashboard/stats.html" %}
-
-      {% include "components/form/text_button.html" with icon="components/icons/add.html" text="Thêm mới" class="!w-fit !h-[42px] px-4 mt-4" on_click="openAddForm" %}
-
-      {% include "components/dashboard/receipts_table.html" %}
     </main>
 
     {% include "components/image_modal.html" with show_modal_key="showImageModal" src_key="imageModalSrc" %}
@@ -132,17 +132,18 @@
             if (!this.validateForm()) {
               return;
             }
+
             this.formLoading = true;
+
+            const url = this.form.id === null ? '{% url "receipt-create" %}' : `{% url "receipt-detail" pk=0 %}`.replace('0', this.form.id);
+            const method = this.form.id === null ? 'POST' : 'PATCH';
+
             const fd = new FormData();
             fd.append('code', (this.form.code || '').trim());
             fd.append('description', this.form.description || '');
             if (this.form.image_file) {
               fd.append('image', this.form.image_file);
             }
-            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
-
-            const url = this.form.id === null ? '/api/receipts/' : `/api/receipts/${this.form.id}/`;
-            const method = this.form.id === null ? 'POST' : 'PATCH';
 
             $.ajax({
               url,
@@ -198,14 +199,9 @@
             if (!confirm('Bạn có chắc chắn muốn xoá hoá đơn này không?')) {
               return;
             }
-            // Soft-delete by setting is_deleted = true via PATCH
-            const fd = new FormData();
-            fd.append('is_deleted', 'true');
-            fd.append('csrfmiddlewaretoken', '{{ csrf_token }}');
             $.ajax({
-              url: `/api/receipts/${id}/`,
-              method: 'PATCH',
-              data: fd,
+              url: `{% url "receipt-detail" pk=0 %}`.replace('0', id),
+              method: 'DELETE',
               processData: false,
               contentType: false,
               headers: { 'X-CSRFToken': '{{ csrf_token }}' },

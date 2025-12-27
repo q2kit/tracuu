@@ -10,7 +10,6 @@ class ReceiptSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(write_only=True, required=False)
     image_name = serializers.CharField(source="image.name", read_only=True)
     image_url = serializers.SerializerMethodField(read_only=True)
-    is_deleted = serializers.BooleanField(write_only=True, required=False, default=False)
     is_recent = serializers.BooleanField(read_only=True)
 
     class Meta:
@@ -26,7 +25,7 @@ class ReceiptSerializer(serializers.ModelSerializer):
             "is_recent",
             "created_at",
         ]
-        read_only_fields = ["id", "created_at"]
+        read_only_fields = ["id", "created_at", "is_deleted"]
 
     def validate_code(self, value):
         value = value.strip().upper()

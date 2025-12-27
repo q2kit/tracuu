@@ -26,6 +26,8 @@
     {% if has_spinner %}x-show="!{{ loading_key }}"{% endif %}
   >
     {% if icon %}{% include icon %}{% endif %}
-    {% if text %}<span>{{ text }}</span>{% endif %}
+    {% if text or text_key %}
+      <span {% if text_key %}x-text="{{ text_key }}"{% endif %}>{% if text %}{{ text }}{% endif %}</span>
+    {% endif %}
   </div>
 </button>
