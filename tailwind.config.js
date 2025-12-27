@@ -6,6 +6,9 @@ module.exports = {
     ],
     plugins: [require("daisyui")],
     theme: {
+      fontFamily: {
+        sans: ["Calibri", "system-ui", "sans-serif", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"],
+      },
       extend: {
         colors: {
           primary: "#4F46E5",      // Indigo - trust & professionalism
