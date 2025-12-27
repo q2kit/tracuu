@@ -44,7 +44,6 @@
                         this.code = '{{ receipt.code }}';
                         this.src_image = '{{ receipt.image.url|escapejs }}';
                         this.show_thumbnail = true;
-                        this.show_modal = true;
                       });
                     {% endif %}
                   },
@@ -66,7 +65,6 @@
                       setTimeout(() => {
                         this.src_image = data.image_url;
                         this.show_thumbnail = true;
-                        this.show_modal = true;
                         this.loading = false;
                       }, 500);
                     })
