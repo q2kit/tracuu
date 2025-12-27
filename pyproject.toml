@@ -10,6 +10,7 @@ dependencies = [
     "pillow==12.0.0",
     "python-dotenv==1.2.1",
     "djangorestframework==3.16.1",
+    "concurrent-log-handler>=0.9.28",
 ]
 
 [project.optional-dependencies]
@@ -41,16 +42,7 @@ ignore = [
     "ANN201",
     "ANN202",
     "BLE001",
-    "D100",
-    "D101",
-    "D102",
-    "D103",
-    "D104",
-    "D105",
-    "D106",
-    "D107",
-    "D401",
-    "DJ008",
+    "D",
     "ERA001",
     "G004",
     "PTH",

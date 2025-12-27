@@ -56,7 +56,7 @@ class ReceiptSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(msg)
         return value
 
-    def get_image_url(self, obj):
+    def get_image_url(self, obj: Receipt) -> str | None:
         if expire_seconds := self.context.get("image_expire_seconds"):
-            return obj.custom_image_url(expire_seconds=expire_seconds)
+            return obj.image_url_custom_expiry(expire_seconds=expire_seconds)
         return obj.image.url

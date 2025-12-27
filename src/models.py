@@ -41,7 +41,7 @@ class Receipt(models.Model):
         self.is_deleted = True
         self.save(update_fields=["is_deleted"])
 
-    def custom_image_url(self, expire_seconds: int = 60 * 3) -> str | None:
+    def image_url_custom_expiry(self, expire_seconds: int = 60 * 3) -> str | None:
         if self.image:
             return generate_presigned_url(
                 object_key=f"images/{self.image.name}",
