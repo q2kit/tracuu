@@ -28,3 +28,16 @@ Open your browser and go to: `http://localhost:8000`
 ```bash
 curl -fsSL https://install.tracuuhoadon247.com/install.sh | sh
 ```
+
+## Local Development
+```bash
+git clone https://github.com/q2kit/tracuu.git
+cd tracuu
+python -m venv .venv
+source .venv/bin/activate
+pip install uv
+uv sync --all-extras
+cp .env.example .env
+python manage.py migrate
+python manage.py runserver 8000
+```

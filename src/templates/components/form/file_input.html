@@ -1,0 +1,20 @@
+{% extends "components/form/base_input.html" %}
+{% block input_element %}
+  <div class="relative">
+    <input
+      type="file"
+      class="hidden"
+      {% if id %}id="{{ id }}"{% endif %}
+      {% if name %}name="{{ name }}"{% endif %}
+      {% if accept %}accept="{{ accept }}"{% endif %}
+      {% if on_change %}@change="{{ on_change }}"{% endif %}
+      x-ref="{{ file_input_ref }}"
+    />
+    {% include "components/form/text_button.html" with on_click="(e) => { $refs.imageInputRef.click(); }" class="!px-4 !py-2 !h-[40px]" %}
+    <div
+      class="block text-sm text-slate-600 overflow-hidden text-ellipsis mt-2 whitespace-nowrap"
+      x-text="{{ file_name_key }} || '{{ placeholder|default:"Chưa có file nào được chọn" }}'"
+      :title="{{ file_name_key }}"
+    ></div>
+  </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+<header class="h-[50px] bg-white shadow-sm sticky top-0 z-50 border-b border-gray-100">
+  <div class="max-w-7xl h-full mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="h-full flex justify-end sm:justify-between items-center py-2">
+      <a href="/" class="hidden sm:flex items-center gap-2">
+        <h1 class="text-2xl font-bold text-primary">Tra cứu hoá đơn 24/7</h1>
+      </a>
+      <div class="flex items-center gap-2">
+        <div class="font-medium text-slate-700">Xin chào, <span class="text-primary">{{ user.username }}</span></div>
+        <a href="/" title="Truy cập trang tra cứu">
+          {% include "components/form/icon_button.html" with icon="components/icons/search.html" type="button" class="h-[40px] w-[40px] p-0 bg-none hover:text-primary" %}
+        </a>
+        {% include "components/base/logout_button.html" %}
+      </div>
+    </div>
+  </div>
+</header>

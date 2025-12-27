@@ -1,0 +1,12 @@
+<form
+  action="{% url 'logout' %}"
+  method="post"
+  class="m-0"
+  x-data="{ logout_loading: false }"
+  @submit="logout_loading = true"
+  x-cloak
+  title="Đăng xuất"
+  >
+  {% csrf_token %}
+  {% include "components/form/icon_button.html" with icon="components/icons/logout.html" type="submit" class="h-[40px] w-[40px] p-0 bg-none hover:text-error" has_spinner=True loading_key="logout_loading" %}
+</form>

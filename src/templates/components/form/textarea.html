@@ -1,0 +1,12 @@
+{% extends "components/form/base_input.html" %}
+{% block input_element %}
+  <textarea
+    {% if id %}id="{{ id }}"{% endif %}
+    {% if name %}name="{{ name }}"{% endif %}
+    rows="{{ rows|default:4 }}"
+    placeholder="{{ placeholder }}"
+    class="w-full rounded-xl border border-gray-300 p-3 text-[15px] focus:outline-none focus:ring-2 focus:ring-primary {{ textarea_class }}"
+    {% if required %}required{% endif %}
+    {% if model_key %}x-model="{{ model_key }}"{% endif %}
+  >{{ value }}</textarea>
+{% endblock %}
