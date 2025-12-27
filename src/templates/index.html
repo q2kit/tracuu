@@ -58,7 +58,7 @@
                     this.code_error_text = '';
                     this.show_thumbnail = false;
                     $.ajax({
-                      url: `/search/${encodeURIComponent(this.code)}/`,
+                      url: '{% url "receipt-search" code="_code_" %}'.replace('_code_', this.code.trim()),
                       method: 'GET',
                       dataType: 'json'
                     })

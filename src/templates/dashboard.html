@@ -135,7 +135,7 @@
 
             this.formLoading = true;
 
-            const url = this.form.id === null ? '/api/receipts/' : `/api/receipts/${this.form.id}/`;
+            const url = this.form.id === null ? '{% url "receipt-create" %}' : `{% url "receipt-detail" pk=0 %}`.replace('0', this.form.id);
             const method = this.form.id === null ? 'POST' : 'PATCH';
 
             const fd = new FormData();
@@ -199,13 +199,9 @@
             if (!confirm('Bạn có chắc chắn muốn xoá hoá đơn này không?')) {
               return;
             }
-            // Soft-delete by setting is_deleted = true via PATCH
-            const fd = new FormData();
-            fd.append('is_deleted', 'true');
             $.ajax({
-              url: `/api/receipts/${id}/`,
-              method: 'PATCH',
-              data: fd,
+              url: `{% url "receipt-detail" pk=0 %}`.replace('0', id),
+              method: 'DELETE',
               processData: false,
               contentType: false,
               headers: { 'X-CSRFToken': '{{ csrf_token }}' },
