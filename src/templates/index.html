@@ -83,12 +83,10 @@
           </div>
           <div
             class="mt-7 w-full"
+            x-show="show_thumbnail"
+            x-collapse
             >
-            <div
-              x-show="show_thumbnail"
-              class="flex flex-col items-center"
-              x-collapse
-            >
+            <div class="flex flex-col items-center">
               <div
                 class="w-[260px] h-[360px] mx-auto rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center overflow-hidden cursor-pointer"
                 x-on:click="show_modal = true"
@@ -103,9 +101,6 @@
                 Nhấn vào ảnh để xem với kích thước lớn hơn
               </div>
             </div>
-          </div>
-          <div class="text-center mt-4">
-            <a href="/dashboard/" class="text-sm text-primary hover:opacity-80">→ Truy cập dashboard quản lý hoá đơn</a>
           </div>
         </div>
       </main>
