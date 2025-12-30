@@ -25,7 +25,6 @@ class Command(BaseCommand):
 
             # Get S3 credentials from settings
             endpoint_url = settings.AWS_S3_ENDPOINT_URL
-            region_name = settings.AWS_S3_REGION_NAME
             access_key = settings.AWS_ACCESS_KEY_ID
             secret_key = settings.AWS_SECRET_ACCESS_KEY
             bucket_name = settings.AWS_STORAGE_BUCKET_NAME
@@ -34,7 +33,6 @@ class Command(BaseCommand):
             s3 = boto3.client(
                 "s3",
                 endpoint_url=endpoint_url,
-                region_name=region_name,
                 aws_access_key_id=access_key,
                 aws_secret_access_key=secret_key,
             )
