@@ -22,3 +22,33 @@ def generate_presigned_url(
         Params={"Bucket": bucket_name, "Key": object_key},
         ExpiresIn=expire_seconds,
     )
+
+
+def upload_file_to_s3(file_name: str, upload_name: str) -> None:
+    s3_client = boto3.client(
+        "s3",
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+    s3_client.upload_file(
+        Filename=file_name,
+        Bucket=settings.AWS_STORAGE_BUCKET_NAME,
+        Key=upload_name,
+    )
+
+
+def upload_fileobj_to_s3(file_obj, upload_name: str) -> None:
+    s3_client = boto3.client(
+        "s3",
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+    s3_client.upload_fileobj(
+        Fileobj=file_obj,
+        Bucket=settings.AWS_STORAGE_BUCKET_NAME,
+        Key=upload_name,
+    )

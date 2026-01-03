@@ -2,10 +2,11 @@ import os
 import sys
 import traceback
 
-import boto3
 from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import timezone
+
+from src.funcs import upload_fileobj_to_s3
 
 
 class Command(BaseCommand):
@@ -23,23 +24,9 @@ class Command(BaseCommand):
             now = timezone.localtime().strftime("%Y%m%d_%H%M%S")
             backup_key = f"db_backup/{now}.sqlite3"
 
-            # Get S3 credentials from settings
-            endpoint_url = settings.AWS_S3_ENDPOINT_URL
-            access_key = settings.AWS_ACCESS_KEY_ID
-            secret_key = settings.AWS_SECRET_ACCESS_KEY
-            bucket_name = settings.AWS_STORAGE_BUCKET_NAME
-
-            # Create S3 client
-            s3 = boto3.client(
-                "s3",
-                endpoint_url=endpoint_url,
-                aws_access_key_id=access_key,
-                aws_secret_access_key=secret_key,
-            )
-
             # Upload the database file
             with open(db_path, "rb") as f:
-                s3.upload_fileobj(f, bucket_name, backup_key)
+                upload_fileobj_to_s3(f, backup_key)
         except Exception:
             self.stderr.write(f"Backup failed: {traceback.format_exc()}")
             sys.exit(1)
