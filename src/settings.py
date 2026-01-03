@@ -7,6 +7,7 @@ from src.const import (
     NORMAL_IMAGE_EXPIRY_SECONDS,
     SERVER_HOST,
 )
+from src.utils.log.formatter import LogFormatter
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -137,3 +138,58 @@ REST_FRAMEWORK = {
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/dashboard/"
 LOGOUT_REDIRECT_URL = "/login/"
+
+Path("logs").mkdir(parents=True, exist_ok=True)
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": True,
+    "formatters": {
+        "file": {
+            "()": LogFormatter,
+        },
+        "standard": {
+            "format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        },
+    },
+    "handlers": {
+        "file": {
+            "level": "INFO",
+            "class": "src.utils.log.handler.S3ConcurrentTimedRotatingFileHandler",
+            "filename": "logs/general.log",
+            "when": "M",
+            "interval": 5,
+            "backupCount": 12,
+            "formatter": "file",
+            "encoding": "utf8",
+            "delay": False,
+            "mode": "a",
+        },
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
+            "formatter": "standard",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file", "console"] if not DEBUG else ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "boto3": {
+            "handlers": ["file", "console"] if not DEBUG else ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "botocore": {
+            "handlers": ["file", "console"] if not DEBUG else ["console"],
+            "level": "INFO",
+            "propagate": False,
+        },
+        "": {
+            "handlers": ["file", "console"] if not DEBUG else ["console"],
+            "level": "INFO" if not DEBUG else "DEBUG",
+        },
+    },
+}
