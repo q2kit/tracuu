@@ -43,6 +43,20 @@
           },
           errors: { code: '', image: '' },
           init() {
+            this.$watch('showFormModal', (value) => {
+              if (value) {
+                this.$nextTick(() => {
+                  document.getElementById('codeInput')?.focus();
+                });
+              }
+            });
+            this.$watch('errors.code', (value) => {
+              if (value) {
+                this.$nextTick(() => {
+                  document.getElementById('codeInput')?.focus();
+                });
+              }
+            });
             this.$watch('form.code', (value) => {
               if (value.trim()) {
                 this.errors.code = '';
@@ -60,6 +74,9 @@
               this.form.changed_image_file = true;
             });
           },
+          closeModal() {
+            this.showFormModal = false;
+          },
           clearForm() {
             this.form = {
               id: null,
@@ -72,8 +89,10 @@
               image_url: '',
             };
             this.$refs.imageInputRef.value = null;
+            this.errors = { code: '', image: '' };
           },
           setForm(item) {
+            this.clearForm();
             if (item) {
               this.form = {
                 id: item.id,
@@ -85,10 +104,7 @@
                 image_name: item.image_name,
                 image_url: item.image_url,
               };
-            } else {
-              this.clearForm();
             }
-            this.errors = { code: '', image: '' };
           },
           openAddForm() {
             this.setForm(null);
@@ -169,7 +185,6 @@
                 this.receipts = this.receipts.map(receipt => receipt.id === updated.id ? updated : receipt);
               }
               this.showFormModal = false;
-              this.clearForm();
             })
             .fail((xhr) => {
               try {
