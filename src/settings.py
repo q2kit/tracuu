@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 from src.const import (
@@ -8,6 +9,11 @@ from src.const import (
     SERVER_HOST,
 )
 from src.utils.log.formatter import LogFormatter
+
+# Flag indicating that Django is being run via manage.py (i.e., a management command
+# such as migrate, collectstatic, shell, etc.). Other parts of the codebase can use
+# this to adjust behavior or skip runtime-only initialization when running commands.
+IS_MANAGEMENT_COMMAND = len(sys.argv) > 1 and sys.argv[0].endswith("manage.py")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -141,55 +147,59 @@ LOGOUT_REDIRECT_URL = "/login/"
 
 Path("logs").mkdir(parents=True, exist_ok=True)
 
-LOGGING = {
-    "version": 1,
-    "disable_existing_loggers": True,
-    "formatters": {
-        "file": {
-            "()": LogFormatter,
+LOGGING = (
+    {
+        "version": 1,
+        "disable_existing_loggers": True,
+        "formatters": {
+            "file": {
+                "()": LogFormatter,
+            },
+            "standard": {
+                "format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+            },
         },
-        "standard": {
-            "format": "%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        "handlers": {
+            "file": {
+                "level": "INFO",
+                "class": "src.utils.log.handler.S3ConcurrentTimedRotatingFileHandler",
+                "filename": "logs/general.log",
+                "when": "M",
+                "interval": 5,
+                "backupCount": 12,
+                "formatter": "file",
+                "encoding": "utf8",
+                "delay": False,
+                "mode": "a",
+            },
+            "console": {
+                "level": "DEBUG",
+                "class": "logging.StreamHandler",
+                "formatter": "standard",
+            },
         },
-    },
-    "handlers": {
-        "file": {
-            "level": "INFO",
-            "class": "src.utils.log.handler.S3ConcurrentTimedRotatingFileHandler",
-            "filename": "logs/general.log",
-            "when": "M",
-            "interval": 5,
-            "backupCount": 12,
-            "formatter": "file",
-            "encoding": "utf8",
-            "delay": False,
-            "mode": "a",
+        "loggers": {
+            "django": {
+                "handlers": ["file", "console"] if not DEBUG else ["console"],
+                "level": "INFO",
+                "propagate": False,
+            },
+            "boto3": {
+                "handlers": ["file", "console"] if not DEBUG else ["console"],
+                "level": "INFO",
+                "propagate": False,
+            },
+            "botocore": {
+                "handlers": ["file", "console"] if not DEBUG else ["console"],
+                "level": "INFO",
+                "propagate": False,
+            },
+            "": {
+                "handlers": ["file", "console"] if not DEBUG else ["console"],
+                "level": "INFO" if not DEBUG else "DEBUG",
+            },
         },
-        "console": {
-            "level": "DEBUG",
-            "class": "logging.StreamHandler",
-            "formatter": "standard",
-        },
-    },
-    "loggers": {
-        "django": {
-            "handlers": ["file", "console"] if not DEBUG else ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "boto3": {
-            "handlers": ["file", "console"] if not DEBUG else ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "botocore": {
-            "handlers": ["file", "console"] if not DEBUG else ["console"],
-            "level": "INFO",
-            "propagate": False,
-        },
-        "": {
-            "handlers": ["file", "console"] if not DEBUG else ["console"],
-            "level": "INFO" if not DEBUG else "DEBUG",
-        },
-    },
-}
+    }
+    if not IS_MANAGEMENT_COMMAND
+    else {}
+)
