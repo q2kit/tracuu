@@ -10,6 +10,9 @@ from src.const import (
 )
 from src.utils.log.formatter import LogFormatter
 
+# Flag indicating that Django is being run via manage.py (i.e., a management command
+# such as migrate, collectstatic, shell, etc.). Other parts of the codebase can use
+# this to adjust behavior or skip runtime-only initialization when running commands.
 IS_MANAGEMENT_COMMAND = len(sys.argv) > 1 and sys.argv[0].endswith("manage.py")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
