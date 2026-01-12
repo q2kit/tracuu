@@ -39,6 +39,21 @@ def upload_file_to_s3(file_name: str, upload_name: str) -> None:
     )
 
 
+def download_file_from_s3(object_key: str, download_path: str) -> None:
+    s3_client = boto3.client(
+        "s3",
+        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
+        region_name=settings.AWS_S3_REGION_NAME,
+        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
+        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
+    )
+    s3_client.download_file(
+        Bucket=settings.AWS_STORAGE_BUCKET_NAME,
+        Key=object_key,
+        Filename=download_path,
+    )
+
+
 def upload_fileobj_to_s3(file_obj, upload_name: str) -> None:
     s3_client = boto3.client(
         "s3",
@@ -51,19 +66,4 @@ def upload_fileobj_to_s3(file_obj, upload_name: str) -> None:
         Fileobj=file_obj,
         Bucket=settings.AWS_STORAGE_BUCKET_NAME,
         Key=upload_name,
-    )
-
-
-def download_fileobj_from_s3(object_key: str, file_obj) -> None:
-    s3_client = boto3.client(
-        "s3",
-        endpoint_url=settings.AWS_S3_ENDPOINT_URL,
-        region_name=settings.AWS_S3_REGION_NAME,
-        aws_access_key_id=settings.AWS_ACCESS_KEY_ID,
-        aws_secret_access_key=settings.AWS_SECRET_ACCESS_KEY,
-    )
-    s3_client.download_fileobj(
-        Bucket=settings.AWS_STORAGE_BUCKET_NAME,
-        Key=object_key,
-        Fileobj=file_obj,
     )
