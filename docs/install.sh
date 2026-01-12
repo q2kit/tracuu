@@ -68,8 +68,7 @@ fi
 echo "==> Pull Docker image..."
 docker pull q2kit/tracuu:production
 
-touch /srv/tracuu/db.sqlite3
-chown -R $(whoami):$(whoami) /srv/tracuu
+mkdir -p /srv/tracuu
 
 if [ ! -f /srv/tracuu/.env ]; then
   echo "❌ Lỗi: File /srv/tracuu/.env không tồn tại!"
@@ -78,6 +77,9 @@ if [ ! -f /srv/tracuu/.env ]; then
 else
   echo "✅ File .env đã tồn tại."
 fi
+
+touch /srv/tracuu/db.sqlite3
+chown -R $(whoami):$(whoami) /srv/tracuu
 
 if docker ps -a --format '{{.Names}}' | grep -Eq '^tracuu$'; then
   echo "==> Dừng container cũ..."
