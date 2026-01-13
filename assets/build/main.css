@@ -1210,6 +1210,9 @@ html {
 .fixed {
   position: fixed;
 }
+.absolute {
+  position: absolute;
+}
 .relative {
   position: relative;
 }
@@ -1218,6 +1221,12 @@ html {
 }
 .inset-0 {
   inset: 0px;
+}
+.bottom-2 {
+  bottom: 0.5rem;
+}
+.left-0 {
+  left: 0px;
 }
 .right-5 {
   right: 1.25rem;
@@ -1630,6 +1639,9 @@ html {
 .p-6 {
   padding: 1.5rem;
 }
+.p-8 {
+  padding: 2rem;
+}
 .\!px-4 {
   padding-left: 1rem !important;
   padding-right: 1rem !important;
@@ -1680,6 +1692,9 @@ html {
 }
 .pb-10 {
   padding-bottom: 2.5rem;
+}
+.pb-12 {
+  padding-bottom: 3rem;
 }
 .pt-9 {
   padding-top: 2.25rem;
