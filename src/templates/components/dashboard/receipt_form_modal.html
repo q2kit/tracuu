@@ -27,7 +27,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-0 max-h-[calc(100vh-200px)] overflow-y-auto">
       <div class="p-6 space-y-4 border-r border-gray-100">
-        {% include "components/form/input.html" with id="codeInput" label="Mã hoá đơn" on_enter_key="submitForm" placeholder="Ví dụ: HD2025XXXX" required=True helper_text="Mã hóa đơn chỉ được chứa chữ cái, số, dấu gạch ngang và dấu gạch dưới." model_key="form.code" error_text_key="errors.code" autocomplete="off" wrapper_class="mb-0" %}
+        {% include "components/form/input.html" with id="codeInput" label="Mã hoá đơn" on_enter_key="submitForm" placeholder="Ví dụ: HD2026XXXX" required=True helper_text="Mã hóa đơn chỉ được chứa chữ cái, số, dấu gạch ngang và dấu gạch dưới." model_key="form.code" error_text_key="errors.code" autocomplete="off" wrapper_class="mb-0" %}
 
         {% include "components/form/textarea.html" with label="Mô tả" placeholder="Nhập mô tả chi tiết" rows=4 model_key="form.description" show_optional=True textarea_class="resize-none" %}
 

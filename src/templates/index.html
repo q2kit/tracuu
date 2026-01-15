@@ -19,7 +19,7 @@
             Nhập mã hoá đơn để xem hình ảnh chi tiết
           </div>
           <div x-data="search_data()" class="space-y-4 mt-7">
-            {% include "components/form/input.html" with id="codeInput" model_key="code" error_text_key="code_error_text" on_enter_key="on_search" label="Mã hoá đơn" placeholder="Ví dụ: HD2025XXXX" required=True helper_text="Mã hoá đơn không phân biệt chữ hoa và chữ thường" error_id="errorText" autocomplete="off" %}
+            {% include "components/form/input.html" with id="codeInput" model_key="code" error_text_key="code_error_text" on_enter_key="on_search" label="Mã hoá đơn" placeholder="Ví dụ: HD2026XXXX" required=True helper_text="Mã hoá đơn không phân biệt chữ hoa và chữ thường" error_id="errorText" autocomplete="off" %}
             {% include "components/form/text_button.html" with has_spinner=True loading_key="loading" text="Tra cứu" on_click="on_search" %}
             <script>
               function search_data() {
@@ -106,7 +106,7 @@
             </div>
           </div>
           <div class="absolute bottom-2 left-0 w-full text-center text-xs text-slate-400">
-            © {% now "Y" %} Tra cứu hoá đơn 24/7.
+            &copy; {% now "Y" %} Tra cứu hóa đơn 24/7.
           </div>
         </div>
       </main>
