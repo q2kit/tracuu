@@ -228,6 +228,9 @@
                 alert('Xoá hoá đơn thất bại. Vui lòng thử lại.');
               });
           },
+          copyToClipboard(text) {
+            navigator.clipboard.writeText(text);
+          },
         }
       }
     </script>
