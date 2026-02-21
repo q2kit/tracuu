@@ -16,7 +16,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):  # noqa: ARG002
         db_filename = options["db_filename"]
-        db_path = os.path.join(settings.BASE_DIR, "db.sqlite3")
+        db_path = os.path.join(settings.BASE_DIR, db_filename)
         try:
             download_file_from_s3(f"db_backup/{db_filename}", db_path)
         except Exception:
