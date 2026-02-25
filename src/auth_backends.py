@@ -11,7 +11,7 @@ def _get_fail_key(username):
     return f"{settings.LOGIN_FAIL_KEY_PREFIX}{username}"
 
 
-def _is_locked(username):
+def is_user_locked(username):
     lock_key = _get_lock_key(username)
     return cache.get(lock_key)
 
@@ -21,8 +21,11 @@ def _record_failure(username):
     lock_key = _get_lock_key(username)
     timeout = settings.LOGIN_LOCK_RETRY_AFTER_SECONDS
 
-    failures = cache.get(fail_key, 0) + 1
-    cache.set(fail_key, failures, timeout=timeout)
+    try:
+        failures = cache.incr(fail_key)
+    except ValueError:
+        cache.add(fail_key, value=1, timeout=timeout)
+        failures = 1
 
     if failures >= settings.LOGIN_LOCK_MAX_FAILED_ATTEMPTS:
         cache.set(lock_key, value=True, timeout=timeout)
@@ -37,7 +40,7 @@ def _reset(username):
 
 class LockableModelBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
-        if not username or _is_locked(username):
+        if not username or is_user_locked(username):
             return None
 
         if user := super().authenticate(
