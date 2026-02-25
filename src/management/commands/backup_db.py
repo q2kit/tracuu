@@ -6,7 +6,7 @@ from django.conf import settings
 from django.core.management.base import BaseCommand
 from django.utils import timezone
 
-from src.funcs import upload_fileobj_to_s3
+from src.funcs import upload_file_to_s3
 
 
 class Command(BaseCommand):
@@ -25,8 +25,7 @@ class Command(BaseCommand):
             backup_key = f"db_backup/{now}.sqlite3"
 
             # Upload the database file
-            with open(db_path, "rb") as f:
-                upload_fileobj_to_s3(f, backup_key)
+            upload_file_to_s3(db_path, backup_key)
         except Exception:
             self.stderr.write(f"Backup failed: {traceback.format_exc()}")
             sys.exit(1)

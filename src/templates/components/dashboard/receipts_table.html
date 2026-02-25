@@ -25,7 +25,16 @@
 
           <template x-for="item in receipts" :key="item.id">
             <tr class="odd:bg-slate-50 hover:bg-slate-100 transition-colors">
-              <td class="{{ td_class }} font-medium" x-text="item.code"></td>
+              <td class="{{ td_class }} font-medium">
+                <span
+                  x-text="item.code"
+                  tabindex="0"
+                  title="Click để sao chép"
+                  @click="copyToClipboard(item.code)"
+                  @keydown.enter="copyToClipboard(item.code)"
+                  @keydown.space.prevent="copyToClipboard(item.code)"
+                ></span>
+              </td>
               <td
                 class="{{ td_class }} overflow-hidden text-ellipsis max-w-xs hidden lg:table-cell"
                 x-text="item.description || '-' "
