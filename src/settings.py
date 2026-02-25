@@ -79,6 +79,10 @@ DATABASES = {
     },
 }
 
+AUTHENTICATION_BACKENDS = [
+    "src.auth_backends.LockableModelBackend",
+]
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",  # noqa: E501
@@ -144,6 +148,18 @@ REST_FRAMEWORK = {
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/dashboard/"
 LOGOUT_REDIRECT_URL = "/login/"
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379",
+    },
+}
+
+LOGIN_LOCK_MAX_FAILED_ATTEMPTS = 5
+LOGIN_LOCK_RETRY_AFTER_SECONDS = 300
+LOGIN_FAIL_KEY_PREFIX = "auth:fail:"
+LOGIN_LOCK_KEY_PREFIX = "auth:lock:"
 
 Path("logs").mkdir(parents=True, exist_ok=True)
 
