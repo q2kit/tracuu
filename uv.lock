@@ -412,7 +412,7 @@ dependencies = [
     { name = "python-dotenv" },
 ]
 
-[package.optional-dependencies]
+[package.dev-dependencies]
 dev = [
     { name = "black" },
     { name = "pre-commit" },
@@ -421,7 +421,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "black", marker = "extra == 'dev'", specifier = "==25.12.0" },
     { name = "boto3", specifier = "==1.42.12" },
     { name = "concurrent-log-handler", specifier = ">=0.9.28" },
     { name = "django", specifier = "==6.0" },
@@ -429,11 +428,15 @@ requires-dist = [
     { name = "djangorestframework", specifier = "==3.16.1" },
     { name = "gunicorn", specifier = "==23.0.0" },
     { name = "pillow", specifier = "==12.0.0" },
-    { name = "pre-commit", marker = "extra == 'dev'", specifier = "==4.5.1" },
     { name = "python-dotenv", specifier = "==1.2.1" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = "==0.14.10" },
 ]
-provides-extras = ["dev"]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "black", specifier = "==25.12.0" },
+    { name = "pre-commit", specifier = "==4.5.1" },
+    { name = "ruff", specifier = "==0.14.10" },
+]
 
 [[package]]
 name = "tzdata"

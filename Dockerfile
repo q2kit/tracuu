@@ -10,7 +10,7 @@ WORKDIR /srv
 
 COPY . .
 
-RUN uv sync --locked
+RUN uv sync --locked --no-dev
 
 ENV PATH="/srv/.venv/bin:$PATH"
 
