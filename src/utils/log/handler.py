@@ -26,7 +26,7 @@ class S3ConcurrentTimedRotatingFileHandler(ConcurrentTimedRotatingFileHandler):
         return:
             /logs/20250131_1200.log
         """
-        suffix = default_name.split(".")[-1]
+        suffix = default_name.rsplit(".", maxsplit=1)[-1]
         return f"{self.dirName / suffix}.log"
 
     def getListOfFiles(self):  # noqa: N802
