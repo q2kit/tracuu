@@ -8,8 +8,8 @@ from src.views import (
     DashboardView,
     IndexView,
     ReceiptCreateAPIView,
-    ReceiptRetrieveUpdateDestroyAPIView,
-    ReceiptSearchPublicAPIView,
+    ReceiptRUDAPIView,
+    ReceiptSearchAPIView,
 )
 
 urlpatterns = [
@@ -17,17 +17,9 @@ urlpatterns = [
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", CustomLogoutView.as_view(), name="logout"),
     path("dashboard/", DashboardView.as_view(), name="dashboard"),
-    path(
-        "search/<str:code>/",
-        ReceiptSearchPublicAPIView.as_view(),
-        name="receipt-search",
-    ),
+    path("search/<str:code>/", ReceiptSearchAPIView.as_view(), name="receipt-search"),
     path("api/receipts/", ReceiptCreateAPIView.as_view(), name="receipt-create"),
-    path(
-        "api/receipts/<int:pk>/",
-        ReceiptRetrieveUpdateDestroyAPIView.as_view(),
-        name="receipt-detail",
-    ),
+    path("api/receipts/<int:pk>/", ReceiptRUDAPIView.as_view(), name="receipt-detail"),
 ]
 
 if ENV in [LOCAL_ENV, DEVELOPMENT_ENV]:

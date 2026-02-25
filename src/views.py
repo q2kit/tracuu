@@ -61,7 +61,7 @@ class DashboardView(LoginRequiredMixin, TemplateView):
         return Receipt.objects.filter(is_deleted=False)
 
 
-class ReceiptSearchPublicAPIView(RetrieveAPIView):
+class ReceiptSearchAPIView(RetrieveAPIView):
     permission_classes = []
     serializer_class = ReceiptSerializer
 
@@ -84,7 +84,7 @@ class ReceiptCreateAPIView(CreateAPIView):
     serializer_class = ReceiptSerializer
 
 
-class ReceiptRetrieveUpdateDestroyAPIView(RetrieveUpdateDestroyAPIView):
+class ReceiptRUDAPIView(RetrieveUpdateDestroyAPIView):
     queryset = Receipt.objects.filter(is_deleted=False)
     serializer_class = ReceiptSerializer
 

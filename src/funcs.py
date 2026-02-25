@@ -1,7 +1,13 @@
 import boto3
+import requests
 from django.conf import settings
 
-from src.const import NORMAL_IMAGE_EXPIRY_SECONDS
+from src.const import (
+    NORMAL_IMAGE_EXPIRY_SECONDS,
+    SERVER_HOST,
+    TELEGRAM_BOT_TOKEN,
+    TELEGRAM_CHAT_ID,
+)
 
 
 def generate_presigned_url(
@@ -55,4 +61,21 @@ def download_file_from_s3(object_key: str, download_path: str) -> None:
 
 
 def receipt_created_notify(receipt):
-    pass
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendPhoto"
+    caption = "\n".join(
+        [
+            f"Code: {receipt.code}",
+            f"Description: {receipt.description}" if receipt.description else "",
+            f"URL: https://{SERVER_HOST}?code={receipt.code}",
+        ],
+    )
+    photo = receipt.image_url_custom_expiry()
+    data = {
+        "chat_id": TELEGRAM_CHAT_ID,
+        "caption": caption,
+        "photo": photo,
+    }
+    requests.post(url, data=data, timeout=5)
