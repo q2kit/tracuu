@@ -23,3 +23,6 @@ IMAGE_ALLOWED_TYPES = ["image/jpg", "image/jpeg", "image/png", "image/gif", "ima
 
 NORMAL_IMAGE_EXPIRY_SECONDS = 24 * 60 * 60  # 1 day
 SEARCH_API_IMAGE_EXPIRY_SECONDS = 3 * 60  # 3 minutes
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")

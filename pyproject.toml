@@ -12,6 +12,7 @@ dependencies = [
     "djangorestframework>=3.16.1",
     "concurrent-log-handler>=0.9.28",
     "redis>=7.2.0",
+    "requests>=2.32.5",
 ]
 
 [dependency-groups]
@@ -45,9 +46,12 @@ ignore = [
     "BLE001",
     "D",
     "ERA001",
+    "FIX002",
     "G004",
     "PTH",
     "RUF012",
+    "TD002",
+    "TD003",
     "TRY400",
 ]
 
