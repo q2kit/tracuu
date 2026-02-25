@@ -1,3 +1,5 @@
+import threading
+
 from django.db import transaction
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -11,6 +13,7 @@ def receipt_saved(sender, instance, created, **kwargs):  # noqa: ARG001
     if created:
 
         def callback():
-            receipt_created_notify(instance)
+            # TODO: Use Celery instead of threading
+            threading.Thread(target=receipt_created_notify, args=(instance,)).start()
 
         transaction.on_commit(callback)
