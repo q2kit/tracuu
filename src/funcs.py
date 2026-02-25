@@ -52,3 +52,7 @@ def download_file_from_s3(object_key: str, download_path: str) -> None:
         Key=object_key,
         Filename=download_path,
     )
+
+
+def receipt_created_notify(receipt):
+    pass
