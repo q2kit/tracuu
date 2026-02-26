@@ -20,5 +20,4 @@ RUN DJANGO_STATIC_ROOT=/var/www/html/static/ python manage.py collectstatic --no
 
 EXPOSE 8000
 
-# CMD ["bash", "-c", "nginx && redis-server --daemonize yes && gunicorn -w 5 src.wsgi:application -b 0.0.0.0:8000"]
 CMD ["/usr/bin/supervisord"]
