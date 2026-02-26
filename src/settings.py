@@ -159,9 +159,14 @@ else:
     CACHES = {
         "default": {
             "BACKEND": "django.core.cache.backends.redis.RedisCache",
-            "LOCATION": "redis://127.0.0.1:6379",
+            "LOCATION": "redis://127.0.0.1:6379/0",
         },
     }
+
+CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_RESULT_BACKEND = CELERY_BROKER_URL
+CELERY_TASK_ALWAYS_EAGER = DEBUG
+CELERY_TASK_EAGER_PROPAGATES = DEBUG
 
 LOGIN_LOCK_MAX_FAILED_ATTEMPTS = 5
 LOGIN_LOCK_RETRY_AFTER_SECONDS = 300
