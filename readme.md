@@ -36,7 +36,7 @@ cd tracuu
 python -m venv .venv
 source .venv/bin/activate
 pip install uv
-uv sync --all-extras
+uv sync
 cp .env.example .env
 python manage.py migrate
 python manage.py runserver 8000
