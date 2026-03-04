@@ -24,11 +24,9 @@ class ReceiptImageS3ProxyResponse(HttpResponse):
 
     def __init__(self, s3_proxy_url, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        parsed = urlsplit(s3_proxy_url)
-        if parsed.scheme not in ("http", "https"):
-            raise ValueError(f"Unsupported URL scheme: {parsed.scheme!r}")
+        url_parsed = urlsplit(s3_proxy_url)
         self["X-Accel-Redirect"] = (
-            f"{self.internal_location_prefix}/{parsed.netloc}{parsed.path}"
+            f"{self.internal_location_prefix}/{url_parsed.netloc}{url_parsed.path}"
         )
 
 
