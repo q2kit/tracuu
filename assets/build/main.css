@@ -1522,6 +1522,9 @@ html {
 .border {
   border-width: 1px;
 }
+.border-4 {
+  border-width: 4px;
+}
 .border-b {
   border-bottom-width: 1px;
 }
@@ -1530,6 +1533,10 @@ html {
 }
 .border-t {
   border-top-width: 1px;
+}
+.border-blue-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(59 130 246 / var(--tw-border-opacity, 1));
 }
 .border-error\/30 {
   border-color: rgb(239 68 68 / 0.3);
@@ -1557,6 +1564,9 @@ html {
 }
 .border-warning\/30 {
   border-color: rgb(245 158 11 / 0.3);
+}
+.border-t-transparent {
+  border-top-color: transparent;
 }
 .\!bg-gray-500 {
   --tw-bg-opacity: 1 !important;
