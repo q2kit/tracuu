@@ -1,4 +1,5 @@
 import json
+from urllib.parse import urlsplit
 
 from django.conf import settings
 from django.contrib import messages
@@ -23,8 +24,9 @@ class ReceiptImageS3ProxyResponse(HttpResponse):
 
     def __init__(self, s3_proxy_url, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        url_parsed = urlsplit(s3_proxy_url)
         self["X-Accel-Redirect"] = (
-            f"{self.internal_location_prefix}/{s3_proxy_url.removeprefix('https://')}"
+            f"{self.internal_location_prefix}/{url_parsed.netloc}{url_parsed.path}"
         )
 
 
