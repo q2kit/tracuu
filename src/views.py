@@ -1,4 +1,5 @@
 import json
+from urllib.parse import urlsplit
 
 from django.conf import settings
 from django.contrib import messages
@@ -23,8 +24,11 @@ class ReceiptImageS3ProxyResponse(HttpResponse):
 
     def __init__(self, s3_proxy_url, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        parsed = urlsplit(s3_proxy_url)
+        if parsed.scheme not in ("http", "https"):
+            raise ValueError(f"Unsupported URL scheme: {parsed.scheme!r}")
         self["X-Accel-Redirect"] = (
-            f"{self.internal_location_prefix}/{s3_proxy_url.removeprefix('https://')}"
+            f"{self.internal_location_prefix}/{parsed.netloc}{parsed.path}"
         )
 
 
