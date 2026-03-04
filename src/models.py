@@ -1,10 +1,10 @@
+from django.conf import settings
 from django.db import models
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Collate
 from django.utils import timezone
 
-from src.const import CODE_MAX_LENGTH
-from src.funcs import generate_presigned_url
+from src.const import CODE_MAX_LENGTH, SERVER_HOST
 
 
 class Receipt(models.Model):
@@ -41,13 +41,10 @@ class Receipt(models.Model):
         self.is_deleted = True
         self.save(update_fields=["is_deleted"])
 
-    def image_url_custom_expiry(self, expire_seconds: int = 60 * 3) -> str | None:
-        if self.image:
-            return generate_presigned_url(
-                object_key=f"images/{self.image.name}",
-                expire_seconds=expire_seconds,
-            )
-        return None
+    @property
+    def detail_url(self) -> str:
+        scheme = "http" if settings.DEBUG else "https"
+        return f"{scheme}://{SERVER_HOST}?code={self.code}"
 
     @property
     def is_recent(self) -> bool:

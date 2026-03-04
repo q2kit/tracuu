@@ -1,10 +1,10 @@
-import contextlib
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from rest_framework.generics import (
@@ -13,10 +13,19 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
 )
 
-from src.const import SEARCH_API_IMAGE_EXPIRY_SECONDS
 from src.forms import CustomAuthenticationForm
 from src.models import Receipt
 from src.serializers import ReceiptSerializer
+
+
+class ReceiptImageS3ProxyResponse(HttpResponse):
+    internal_location_prefix = "/_internal_image_proxy"
+
+    def __init__(self, s3_proxy_url, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self["X-Accel-Redirect"] = (
+            f"{self.internal_location_prefix}/{s3_proxy_url.removeprefix('https://')}"
+        )
 
 
 class IndexView(TemplateView):
@@ -24,11 +33,29 @@ class IndexView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        receipt_code = self.request.GET.get("code", "").strip()
-        with contextlib.suppress(Receipt.DoesNotExist):
-            receipt = Receipt.objects.get(is_deleted=False, code__iexact=receipt_code)
-            context["receipt"] = receipt
+        context["receipt"] = self.receipt
         return context
+
+    def get(self, request, *args, **kwargs):
+        receipt_code = request.GET.get("code", "").strip()
+
+        try:
+            self.receipt = Receipt.objects.get(
+                is_deleted=False,
+                code__iexact=receipt_code,
+            )
+        except Receipt.DoesNotExist:
+            self.receipt = None
+
+        accept_header = request.META.get("HTTP_ACCEPT", "")
+
+        if "text/html" in accept_header or self.receipt is None:
+            return super().get(request, *args, **kwargs)
+
+        if settings.DEBUG:
+            return HttpResponseRedirect(self.receipt.image.url)
+
+        return ReceiptImageS3ProxyResponse(self.receipt.image.url)
 
 
 class CustomLoginView(LoginView):
@@ -72,11 +99,6 @@ class ReceiptSearchAPIView(RetrieveAPIView):
             is_deleted=False,
             code__iexact=code,
         )
-
-    def get_serializer_context(self):
-        context = super().get_serializer_context()
-        context["image_expire_seconds"] = SEARCH_API_IMAGE_EXPIRY_SECONDS
-        return context
 
 
 class ReceiptCreateAPIView(CreateAPIView):
