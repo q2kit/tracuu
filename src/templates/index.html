@@ -94,6 +94,7 @@
                 class="w-[260px] h-[360px] mx-auto rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center overflow-hidden cursor-pointer"
                 x-on:click="show_modal = true"
                 x-data="{ loaded: false }"
+                x-effect="src_image; loaded = false"
               >
                 <div
                   x-show="!loaded"
