@@ -46,7 +46,11 @@
                       this.$nextTick(() => {
                         this.code = '{{ receipt.code }}';
                         this.src_image = '{{ receipt.detail_url|escapejs }}';
-                        this.show_thumbnail = true;
+                        this.loading = true;
+                        setTimeout(() => {
+                          this.show_thumbnail = true;
+                          this.loading = false;
+                        }, 500);
                       });
                     {% endif %}
                   },

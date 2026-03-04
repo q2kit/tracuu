@@ -36,6 +36,11 @@ class IndexView(TemplateView):
         context["receipt"] = self.receipt
         return context
 
+    def _is_html_request(self, request):
+        dest = request.headers.get("Sec-Fetch-Dest")
+        accept = request.headers.get("Accept")
+        return dest == "document" or (accept and "text/html" in accept)
+
     def get(self, request, *args, **kwargs):
         receipt_code = request.GET.get("code", "").strip()
 
@@ -47,15 +52,12 @@ class IndexView(TemplateView):
         except Receipt.DoesNotExist:
             self.receipt = None
 
-        accept_header = request.META.get("HTTP_ACCEPT", "")
+        if not self._is_html_request(request) and self.receipt:
+            if settings.DEBUG:
+                return HttpResponseRedirect(self.receipt.image.url)
+            return ReceiptImageS3ProxyResponse(self.receipt.image.url)
 
-        if "text/html" in accept_header or self.receipt is None:
-            return super().get(request, *args, **kwargs)
-
-        if settings.DEBUG:
-            return HttpResponseRedirect(self.receipt.image.url)
-
-        return ReceiptImageS3ProxyResponse(self.receipt.image.url)
+        return super().get(request, *args, **kwargs)
 
 
 class CustomLoginView(LoginView):
