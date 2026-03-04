@@ -125,13 +125,13 @@ AWS_QUERYSTRING_EXPIRE = IMAGE_EXPIRY_SECONDS
 
 STORAGES = {
     "default": {
-        "BACKEND": "src.storages.storage.Storage",
+        "BACKEND": "src.storages.storage.ImageStorage",
         "OPTIONS": {
             "location": "images",
         },
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "src.storages.storage.StaticStorage",
     },
 }
 
