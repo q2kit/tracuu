@@ -74,6 +74,6 @@ def receipt_created_notify(receipt):
     data = {
         "chat_id": TELEGRAM_CHAT_ID,
         "caption": caption,
-        "photo": receipt.detail_url,
+        "photo": receipt.image.url,
     }
     requests.post(url, data=data, timeout=5)
