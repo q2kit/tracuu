@@ -110,7 +110,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "assets"]
-STATIC_ROOT = BASE_DIR / "static" if DEBUG else "/var/www/html/static/"
+STATIC_ROOT = BASE_DIR / "static" if DEBUG else "/var/www/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
