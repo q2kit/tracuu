@@ -26,7 +26,7 @@ class ReceiptImageS3ProxyResponse(HttpResponse):
         super().__init__(*args, **kwargs)
         url_parsed = urlsplit(s3_proxy_url)
         self["X-Accel-Redirect"] = (
-            f"{self.internal_location_prefix}/{url_parsed.netloc}{url_parsed.path}"
+            f"{self.internal_location_prefix}/{url_parsed.netloc}{url_parsed.path}?{url_parsed.query}"
         )
 
 
