@@ -45,7 +45,7 @@
                     {% if receipt %}
                       this.$nextTick(() => {
                         this.code = '{{ receipt.code }}';
-                        this.src_image = '{{ receipt.image.url|escapejs }}';
+                        this.src_image = '{{ receipt.detail_url|escapejs }}';
                         this.show_thumbnail = true;
                       });
                     {% endif %}
@@ -93,9 +93,19 @@
               <div
                 class="w-[260px] h-[360px] mx-auto rounded-xl bg-gradient-to-br from-slate-100 to-slate-200 flex items-center justify-center overflow-hidden cursor-pointer"
                 x-on:click="show_modal = true"
+                x-data="{ loaded: false }"
               >
+                <div
+                  x-show="!loaded"
+                  class="flex items-center justify-center w-full h-full"
+                >
+                  <div class="animate-spin rounded-full h-8 w-8 border-4 border-blue-500 border-t-transparent"></div>
+                </div>
                 <img
                   :src="src_image"
+                  @load="loaded = true"
+                  @error="loaded = true"
+                  x-show="loaded"
                   alt="Ảnh hoá đơn"
                   class="w-full h-full object-contain rounded-xl border border-gray-300"
                 >

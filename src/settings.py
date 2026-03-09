@@ -4,8 +4,8 @@ from pathlib import Path
 
 from src.const import (
     ENV,
+    IMAGE_EXPIRY_SECONDS,
     LOCAL_ENV,
-    NORMAL_IMAGE_EXPIRY_SECONDS,
     SERVER_HOST,
 )
 from src.utils.log.formatter import LogFormatter
@@ -110,7 +110,7 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 STATICFILES_DIRS = [BASE_DIR / "assets"]
-STATIC_ROOT = os.getenv("DJANGO_STATIC_ROOT", BASE_DIR / "static")
+STATIC_ROOT = BASE_DIR / "static" if DEBUG else "/var/www/html/static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
@@ -121,17 +121,17 @@ AWS_ACCESS_KEY_ID = os.environ["AWS_ACCESS_KEY_ID"]
 AWS_SECRET_ACCESS_KEY = os.environ["AWS_SECRET_ACCESS_KEY"]
 AWS_STORAGE_BUCKET_NAME = os.environ["AWS_STORAGE_BUCKET_NAME"]
 AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_EXPIRE = NORMAL_IMAGE_EXPIRY_SECONDS
+AWS_QUERYSTRING_EXPIRE = IMAGE_EXPIRY_SECONDS
 
 STORAGES = {
     "default": {
-        "BACKEND": "src.storages.storage.Storage",
+        "BACKEND": "src.storages.storage.ImageStorage",
         "OPTIONS": {
             "location": "images",
         },
     },
     "staticfiles": {
-        "BACKEND": "django.contrib.staticfiles.storage.StaticFilesStorage",
+        "BACKEND": "src.storages.storage.StaticStorage",
     },
 }
 

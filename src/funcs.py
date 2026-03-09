@@ -3,8 +3,7 @@ import requests
 from django.conf import settings
 
 from src.const import (
-    NORMAL_IMAGE_EXPIRY_SECONDS,
-    SERVER_HOST,
+    IMAGE_EXPIRY_SECONDS,
     TELEGRAM_BOT_TOKEN,
     TELEGRAM_CHAT_ID,
 )
@@ -14,7 +13,7 @@ def generate_presigned_url(
     *,
     bucket_name: str = settings.AWS_STORAGE_BUCKET_NAME,
     object_key: str,
-    expire_seconds: int = NORMAL_IMAGE_EXPIRY_SECONDS,
+    expire_seconds: int = IMAGE_EXPIRY_SECONDS,
 ) -> str:
     s3_client = boto3.client(
         "s3",
@@ -69,13 +68,12 @@ def receipt_created_notify(receipt):
         [
             f"Code: {receipt.code}",
             f"Description: {receipt.description}" if receipt.description else "",
-            f"URL: https://{SERVER_HOST}?code={receipt.code}",
+            f"URL: {receipt.detail_url}",
         ],
     )
-    photo = receipt.image_url_custom_expiry()
     data = {
         "chat_id": TELEGRAM_CHAT_ID,
         "caption": caption,
-        "photo": photo,
+        "photo": receipt.image.url,
     }
     requests.post(url, data=data, timeout=5)

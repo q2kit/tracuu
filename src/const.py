@@ -15,14 +15,13 @@ if ENV not in {LOCAL_ENV, DEVELOPMENT_ENV, PRODUCTION_ENV}:
         f"Invalid environment: {ENV}. Expected {LOCAL_ENV}, {DEVELOPMENT_ENV} or {PRODUCTION_ENV}.",  # noqa: E501, EM102
     )
 
-SERVER_HOST = os.getenv("SERVER_HOST", "localhost")
+SERVER_HOST = os.getenv("SERVER_HOST", "localhost:8000")
 
 CODE_MAX_LENGTH = 100
 IMAGE_MAX_SIZE_MB = 15
 IMAGE_ALLOWED_TYPES = ["image/jpg", "image/jpeg", "image/png", "image/gif", "image/webp"]
 
-NORMAL_IMAGE_EXPIRY_SECONDS = 24 * 60 * 60  # 1 day
-SEARCH_API_IMAGE_EXPIRY_SECONDS = 3 * 60  # 3 minutes
+IMAGE_EXPIRY_SECONDS = 24 * 60 * 60  # 1 day
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
