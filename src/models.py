@@ -44,7 +44,8 @@ class Receipt(models.Model):
     @property
     def detail_url(self) -> str:
         scheme = "http" if settings.DEBUG else "https"
-        return f"{scheme}://{SERVER_HOST}?code={self.code}"
+        timestamp = int(timezone.now().timestamp())  # Add timestamp to prevent caching
+        return f"{scheme}://{SERVER_HOST}?code={self.code}&t={timestamp}"
 
     @property
     def is_recent(self) -> bool:
