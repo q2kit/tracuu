@@ -1,3 +1,5 @@
+import time
+
 from django.conf import settings
 from django.db import models
 from django.db.models import UniqueConstraint
@@ -44,7 +46,8 @@ class Receipt(models.Model):
     @property
     def detail_url(self) -> str:
         scheme = "http" if settings.DEBUG else "https"
-        return f"{scheme}://{SERVER_HOST}?code={self.code}"
+        timestamp = int(time.time())
+        return f"{scheme}://{SERVER_HOST}?code={self.code}&t={timestamp}"
 
     @property
     def is_recent(self) -> bool:
